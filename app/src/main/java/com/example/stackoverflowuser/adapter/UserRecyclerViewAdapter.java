@@ -1,11 +1,17 @@
 package com.example.stackoverflowuser.adapter;
 
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stackoverflowuser.R;
 import com.example.stackoverflowuser.model.User;
 
 import java.util.List;
@@ -16,8 +22,13 @@ public class UserRecyclerViewAdapter
     private List<User> userList;
 
     public static class UserItemViewHolder extends RecyclerView.ViewHolder {
-        public UserItemViewHolder(@NonNull View itemView) {
+        public TextView txtName;
+        public ImageView ivAvatar;
+
+        public UserItemViewHolder(@NonNull ConstraintLayout itemView) {
             super(itemView);
+            txtName = itemView.findViewById(R.id.txtName);
+            ivAvatar = itemView.findViewById(R.id.ivAvatar);
         }
     }
 
@@ -28,16 +39,22 @@ public class UserRecyclerViewAdapter
     @NonNull
     @Override
     public UserItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        ConstraintLayout recyclerViewUserItemLayout = (ConstraintLayout) LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_view_user_item_layout, parent, false);
+        return new UserItemViewHolder(recyclerViewUserItemLayout);
     }
 
     @Override
     public void onBindViewHolder(@NonNull UserItemViewHolder holder, int position) {
+        User userItem = userList.get(position);
+        holder.txtName.setText(userItem.getName());
 
+        // TODO: set avatar here
     }
 
     @Override
     public int getItemCount() {
+        Log.e("tes", "" + ((userList != null) ? userList.size() : 0));
         return (userList != null) ? userList.size() : 0;
     }
 
