@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class StackOverflowUserResultGSON {
+public class UserResultGSON {
     @SerializedName("items")
     @Expose
     private List<UserItem> items;
