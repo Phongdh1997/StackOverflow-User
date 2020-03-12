@@ -1,4 +1,4 @@
-package com.example.stackoverflowuser.repository.remote.dao;
+package com.example.stackoverflowuser.repository.local.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.stackoverflowuser.repository.remote.entity.UserEntity;
+import com.example.stackoverflowuser.repository.local.entity.UserEntity;
 
 import java.util.List;
 

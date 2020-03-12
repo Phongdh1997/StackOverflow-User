@@ -1,4 +1,4 @@
-package com.example.stackoverflowuser.repository.remote.entity;
+package com.example.stackoverflowuser.repository.local.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

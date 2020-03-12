@@ -1,4 +1,4 @@
-package com.example.stackoverflowuser.repository.remote;
+package com.example.stackoverflowuser.repository.local;
 
 import android.content.Context;
 
@@ -6,8 +6,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.stackoverflowuser.repository.remote.dao.UserDao;
-import com.example.stackoverflowuser.repository.remote.entity.UserEntity;
+import com.example.stackoverflowuser.repository.local.dao.UserDao;
+import com.example.stackoverflowuser.repository.local.entity.UserEntity;
 
 @Database(entities = {UserEntity.class}, exportSchema = false, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
