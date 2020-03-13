@@ -24,13 +24,23 @@ public class UserPagedListAdapter
     }
 
     public static class UserItemViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtName;
-        public ImageView ivAvatar;
+        private TextView txtName;
+        private ImageView ivAvatar;
+        private ImageView ivBookMarked;
 
         public UserItemViewHolder(@NonNull ConstraintLayout itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.txtName);
             ivAvatar = itemView.findViewById(R.id.ivAvatar);
+            ivBookMarked = itemView.findViewById(R.id.ivBookMarked);
+        }
+
+        public void bindTo(UserEntity userEntity) {
+            if (userEntity != null) {
+                txtName.setText(userEntity.getDisplayName());
+                
+                // TODO: load Avatar here
+            }
         }
     }
 
@@ -44,10 +54,8 @@ public class UserPagedListAdapter
 
     @Override
     public void onBindViewHolder(@NonNull UserItemViewHolder holder, int position) {
-        UserEntity item = getItem(position);
-        if (item != null) {
-            holder.txtName.setText(item.displayName);
-        }
+        UserEntity userEntity = getItem(position);
+        holder.bindTo(userEntity);
     }
 
     private static DiffUtil.ItemCallback<UserEntity> DIFF_CALLBACK =
@@ -56,7 +64,7 @@ public class UserPagedListAdapter
                 // but ID is fixed.
                 @Override
                 public boolean areItemsTheSame(UserEntity oldConcert, UserEntity newConcert) {
-                    return oldConcert.userId == newConcert.userId;
+                    return oldConcert.getUserId() == newConcert.getUserId();
                 }
 
                 @Override
