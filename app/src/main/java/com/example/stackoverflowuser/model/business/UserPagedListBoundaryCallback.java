@@ -7,22 +7,31 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
 
+import com.example.stackoverflowuser.common.NetworkStateValue;
+import com.example.stackoverflowuser.common.UserPagedListConfig;
 import com.example.stackoverflowuser.repository.local.dao.UserDao;
 import com.example.stackoverflowuser.repository.local.entity.UserEntity;
+import com.example.stackoverflowuser.repository.remote.model.UserResultGSON;
 import com.example.stackoverflowuser.repository.remote.service.UserService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserPagedListBoundaryCallback extends PagedList.BoundaryCallback<UserEntity> {
 
     private int lastRequestedPage = 1;
-
-    // avoid triggering multiple requests in the same time
-    private boolean isRequestInProgress = false;
-    private MutableLiveData<Boolean> networkError = new MutableLiveData<>();
+    private boolean isRequestInProgress = false;    // avoid triggering multiple requests in the same time
+    private boolean isHasMore = true;   // show if has more page for next loading
+    private MutableLiveData<String> networkState = new MutableLiveData<>();
     private UserService userService;
     private UserDao userDao;
 
-    public LiveData<Boolean> getNetworkError() {
-        return networkError;
+    public LiveData<String> getNetworkStateLiveData() {
+        return networkState;
     }
 
     public UserPagedListBoundaryCallback(UserService userService, UserDao userDao) {
@@ -43,6 +52,51 @@ public class UserPagedListBoundaryCallback extends PagedList.BoundaryCallback<Us
     }
 
     private void requestAndSaveData() {
+        if (!isRequestInProgress && isHasMore) {
+            networkState.postValue(NetworkStateValue.LOADING);
+            isRequestInProgress = true;
+            userService.getStackOverflowUsers(lastRequestedPage, UserPagedListConfig.NETWORK_PAGE_SIZE)
+                    .enqueue(new Callback<UserResultGSON>() {
+                        @Override
+                        public void onResponse(Call<UserResultGSON> call, Response<UserResultGSON> response) {
+                            if (response.code() == 200) {
+                                UserResultGSON userResultGSON = response.body();
+                                if (userResultGSON != null) {
+                                    List<UserResultGSON.UserItem> userList = userResultGSON.getItems();
+                                    Log.e("resuilt", userResultGSON.toString());
+                                    saveDataToDB(userList);
+                                    //isHasMore = userResultGSON.getHasMore();
+                                    isHasMore = false;
+                                    lastRequestedPage++;
+                                }
+                                networkState.postValue(NetworkStateValue.SUCCESS);
+                            } else {
+                                Log.e("request message", response.code() + response.message());
+                                networkState.postValue(NetworkStateValue.ERROR);
+                            }
+                            isRequestInProgress = false;
+                        }
 
+                        @Override
+                        public void onFailure(Call<UserResultGSON> call, Throwable t) {
+                            networkState.postValue(NetworkStateValue.ERROR);
+                            isRequestInProgress = false;
+                        }
+                    });
+        }
+    }
+
+    private void saveDataToDB(List<UserResultGSON.UserItem> userList) {
+        if (userList == null) return;
+        List<UserEntity> userEntityList = new ArrayList<>();
+        for (UserResultGSON.UserItem userItem: userList) {
+            userEntityList.add(new UserEntity(userItem));
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                userDao.insertAll(userEntityList);
+            }
+        }).start();
     }
 }

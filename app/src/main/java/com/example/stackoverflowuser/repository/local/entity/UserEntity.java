@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.example.stackoverflowuser.repository.remote.model.UserResultGSON;
+
 @Entity (tableName = "user")
 public class UserEntity {
 
@@ -17,6 +19,14 @@ public class UserEntity {
         this.displayName = displayName;
         this.profileImage = profileImage;
         this.reputation = reputation;
+    }
+
+    @Ignore
+    public UserEntity(UserResultGSON.UserItem userItem) {
+        this.userId = userItem.getUserId();
+        this.displayName = userItem.getDisplayName();
+        this.profileImage = userItem.getProfileImage();
+        this.reputation = userItem.getReputation();
     }
 
     @PrimaryKey
@@ -33,6 +43,13 @@ public class UserEntity {
 
     @Override
     public boolean equals(@Nullable Object obj) {
-        return super.equals(obj);
+        if (obj instanceof UserEntity) {
+            UserEntity otherUserEntity = (UserEntity) obj;
+            return  userId == otherUserEntity.userId &&
+                    displayName.equals(otherUserEntity.displayName) &&
+                    profileImage.equals(otherUserEntity.profileImage) &&
+                    reputation == otherUserEntity.reputation;
+        }
+        return false;
     }
 }

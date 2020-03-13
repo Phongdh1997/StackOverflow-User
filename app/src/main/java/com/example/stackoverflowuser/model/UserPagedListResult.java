@@ -3,22 +3,23 @@ package com.example.stackoverflowuser.model;
 import androidx.lifecycle.LiveData;
 import androidx.paging.PagedList;
 
+import com.example.stackoverflowuser.common.NetworkStateValue;
 import com.example.stackoverflowuser.repository.local.entity.UserEntity;
 
 public class UserPagedListResult {
     private LiveData<PagedList<UserEntity>> userPagedListLiveData;
-    private LiveData<Boolean> networkErrorLiveData;
+    private LiveData<String> networkStateLiveData;
 
-    public UserPagedListResult(LiveData<PagedList<UserEntity>> userPagedListLiveData, LiveData<Boolean> networkError) {
+    public UserPagedListResult(LiveData<PagedList<UserEntity>> userPagedListLiveData, LiveData<String> networkState) {
         this.userPagedListLiveData = userPagedListLiveData;
-        this.networkErrorLiveData = networkError;
+        this.networkStateLiveData = networkState;
     }
 
     public LiveData<PagedList<UserEntity>> getUserPagedListLiveData() {
         return userPagedListLiveData;
     }
 
-    public LiveData<Boolean> getNetworkErrorLiveData() {
-        return networkErrorLiveData;
+    public LiveData<String> getNetworkStateLiveData() {
+        return networkStateLiveData;
     }
 }

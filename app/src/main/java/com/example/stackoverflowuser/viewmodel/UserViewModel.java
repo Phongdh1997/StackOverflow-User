@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.paging.PagedList;
 
+import com.example.stackoverflowuser.common.NetworkStateValue;
 import com.example.stackoverflowuser.model.UserPagedListResult;
 import com.example.stackoverflowuser.repository.UserRepository;
 import com.example.stackoverflowuser.repository.UserRepositoryImpl;
@@ -32,7 +33,7 @@ public class UserViewModel extends AndroidViewModel {
         return userPagedListResult.getUserPagedListLiveData();
     }
 
-    public LiveData<Boolean> getNetworkErrorLiveData () {
-        return userPagedListResult.getNetworkErrorLiveData();
+    public LiveData<String> getNetworkStateLiveData () {
+        return userPagedListResult.getNetworkStateLiveData();
     }
 }

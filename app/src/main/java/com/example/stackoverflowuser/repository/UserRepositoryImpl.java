@@ -5,6 +5,8 @@ import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
+import com.example.stackoverflowuser.common.NetworkStateValue;
+import com.example.stackoverflowuser.common.UserPagedListConfig;
 import com.example.stackoverflowuser.model.UserPagedListResult;
 import com.example.stackoverflowuser.model.business.UserPagedListBoundaryCallback;
 import com.example.stackoverflowuser.repository.local.dao.UserDao;
@@ -14,7 +16,6 @@ import com.example.stackoverflowuser.repository.remote.service.UserService;
 
 public class UserRepositoryImpl implements UserRepository {
 
-    private static final int DATABASE_PAGE_SIZE = 20;
     private UserDao userDao;
 
     public UserRepositoryImpl(UserDao userDao) {
@@ -35,14 +36,14 @@ public class UserRepositoryImpl implements UserRepository {
         // instance UserPagedListBoundaryCallback
         UserService userService = RetrofitClient.getUserService();
         UserPagedListBoundaryCallback userPagedListBoundaryCallback = new UserPagedListBoundaryCallback(userService, userDao);
-        LiveData<Boolean> netWorkError = userPagedListBoundaryCallback.getNetworkError();
+        LiveData<String> networkStateLiveData = userPagedListBoundaryCallback.getNetworkStateLiveData();
 
         // Get the paged list
         LiveData<PagedList<UserEntity>> userPagedListLiveData = new LivePagedListBuilder<> (
-                dataSourceFactory, DATABASE_PAGE_SIZE)
+                dataSourceFactory, UserPagedListConfig.DATABASE_PAGE_SIZE)
                 .setBoundaryCallback(userPagedListBoundaryCallback)
                 .build();
 
-        return new UserPagedListResult(userPagedListLiveData, netWorkError);
+        return new UserPagedListResult(userPagedListLiveData, networkStateLiveData);
     }
 }

@@ -1,11 +1,13 @@
 package com.example.stackoverflowuser.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
@@ -59,7 +61,7 @@ public class UserPagedListAdapter
 
                 @Override
                 public boolean areContentsTheSame(UserEntity oldConcert,
-                                                  UserEntity newConcert) {
+                                                  @Nullable UserEntity newConcert) {
                     return oldConcert.equals(newConcert);
                 }
             };
