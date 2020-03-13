@@ -65,8 +65,7 @@ public class UserPagedListBoundaryCallback extends PagedList.BoundaryCallback<Us
                                     List<UserResultGSON.UserItem> userList = userResultGSON.getItems();
                                     Log.e("resuilt", userResultGSON.toString());
                                     saveDataToDB(userList);
-                                    //isHasMore = userResultGSON.getHasMore();
-                                    isHasMore = false;
+                                    isHasMore = userResultGSON.getHasMore();
                                     lastRequestedPage++;
                                 }
                                 networkState.postValue(NetworkStateValue.SUCCESS);
@@ -87,14 +86,14 @@ public class UserPagedListBoundaryCallback extends PagedList.BoundaryCallback<Us
     }
 
     private void saveDataToDB(List<UserResultGSON.UserItem> userList) {
-        if (userList == null) return;
-        List<UserEntity> userEntityList = new ArrayList<>();
-        for (UserResultGSON.UserItem userItem: userList) {
-            userEntityList.add(new UserEntity(userItem));
-        }
         new Thread(new Runnable() {
             @Override
             public void run() {
+                if (userList == null) return;
+                List<UserEntity> userEntityList = new ArrayList<>();
+                for (UserResultGSON.UserItem userItem: userList) {
+                    userEntityList.add(new UserEntity(userItem));
+                }
                 userDao.insertAll(userEntityList);
             }
         }).start();
