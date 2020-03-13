@@ -18,6 +18,6 @@ public interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<UserEntity> userEntities);
 
-    @Query("SELECT * FROM user ORDER BY userId DESC")
+    @Query("SELECT * FROM user ORDER BY userId ASC")
     DataSource.Factory<Integer, UserEntity> getUsers();
 }

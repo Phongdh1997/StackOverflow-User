@@ -5,7 +5,6 @@ import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
-import com.example.stackoverflowuser.common.NetworkStateValue;
 import com.example.stackoverflowuser.common.UserPagedListConfig;
 import com.example.stackoverflowuser.model.UserPagedListResult;
 import com.example.stackoverflowuser.model.business.UserPagedListBoundaryCallback;
@@ -38,9 +37,16 @@ public class UserRepositoryImpl implements UserRepository {
         UserPagedListBoundaryCallback userPagedListBoundaryCallback = new UserPagedListBoundaryCallback(userService, userDao);
         LiveData<String> networkStateLiveData = userPagedListBoundaryCallback.getNetworkStateLiveData();
 
+        // Config paged list load data
+        PagedList.Config userPagedListConfig = new PagedList.Config.Builder()
+                .setPageSize(UserPagedListConfig.DATABASE_PAGE_SIZE)
+                .setPrefetchDistance(UserPagedListConfig.PREFETCH_DISTANCE)
+                .setEnablePlaceholders(true)
+                .build();
+
         // Get the paged list
         LiveData<PagedList<UserEntity>> userPagedListLiveData = new LivePagedListBuilder<> (
-                dataSourceFactory, UserPagedListConfig.DATABASE_PAGE_SIZE)
+                dataSourceFactory, userPagedListConfig)
                 .setBoundaryCallback(userPagedListBoundaryCallback)
                 .build();
 
