@@ -52,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, userEntity.getDisplayName(), Toast.LENGTH_SHORT).show();
             }
         });
+        adapter.getBookmarkedClickedLiveData().observe(this, new Observer<UserEntity>() {
+            @Override
+            public void onChanged(UserEntity userEntity) {
+                Toast.makeText(MainActivity.this, "Bookmarked", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void addEvent() {

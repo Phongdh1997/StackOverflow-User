@@ -1,5 +1,6 @@
 package com.example.stackoverflowuser.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,8 @@ public class UserPagedListAdapter
             txtName = itemView.findViewById(R.id.txtName);
             ivAvatar = itemView.findViewById(R.id.ivAvatar);
             ivBookMarked = itemView.findViewById(R.id.ivBookMarked);
-            setOnItemClickListener(itemView, itemClickedLiveData);
+            ConstraintLayout userConstraintLayout = itemView.findViewById(R.id.userLayout);
+            setOnItemClickListener(userConstraintLayout, itemClickedLiveData);
             setOnBookmarkedClickListener(ivBookMarked, bookmarkedClickLiveData);
         }
 
@@ -60,6 +62,7 @@ public class UserPagedListAdapter
             if (userEntity != null) {
                 currentUser = userEntity;
                 txtName.setText(userEntity.getDisplayName());
+                // ivBookMarked.setColorFilter(Color.YELLOW);
 
                 // TODO: load Avatar here
             }
@@ -75,7 +78,12 @@ public class UserPagedListAdapter
         }
 
         private void setOnBookmarkedClickListener (ImageView ivBookMarked, MutableLiveData<UserEntity> bookmarkedClickLiveData) {
-
+            ivBookMarked.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bookmarkedClickLiveData.postValue(currentUser);
+                }
+            });
         }
     }
 
