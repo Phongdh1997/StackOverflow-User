@@ -36,4 +36,12 @@ public class UserViewModel extends AndroidViewModel {
     public LiveData<String> getNetworkStateLiveData () {
         return userPagedListResult.getNetworkStateLiveData();
     }
+
+    /**
+     * Action: update user Entity to Room db
+     * @param userEntity
+     */
+    public void updateUser(UserEntity userEntity) {
+        userRepository.updateUser(userEntity);
+    }
 }

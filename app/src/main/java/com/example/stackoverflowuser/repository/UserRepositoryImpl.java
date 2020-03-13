@@ -52,4 +52,14 @@ public class UserRepositoryImpl implements UserRepository {
 
         return new UserPagedListResult(userPagedListLiveData, networkStateLiveData);
     }
+
+    @Override
+    public void updateUser(UserEntity userEntity) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                userDao.updateUser(userEntity);
+            }
+        }).start();
+    }
 }

@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(UserEntity userEntity) {
                 Toast.makeText(MainActivity.this, "Bookmarked", Toast.LENGTH_SHORT).show();
+                userEntity.setBookmarked(true);
+                userViewModel.updateUser(userEntity);
             }
         });
     }

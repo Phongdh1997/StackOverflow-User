@@ -62,7 +62,11 @@ public class UserPagedListAdapter
             if (userEntity != null) {
                 currentUser = userEntity;
                 txtName.setText(userEntity.getDisplayName());
-                // ivBookMarked.setColorFilter(Color.YELLOW);
+                if (currentUser.isBookmarked()) {
+                    ivBookMarked.setColorFilter(Color.YELLOW);
+                } else {
+                    ivBookMarked.setColorFilter(0xf1f3f4);
+                }
 
                 // TODO: load Avatar here
             }
@@ -82,6 +86,7 @@ public class UserPagedListAdapter
                 @Override
                 public void onClick(View v) {
                     bookmarkedClickLiveData.postValue(currentUser);
+                    ivBookMarked.setColorFilter(Color.YELLOW);
                 }
             });
         }

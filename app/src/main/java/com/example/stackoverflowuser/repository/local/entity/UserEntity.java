@@ -41,6 +41,9 @@ public class UserEntity {
     @ColumnInfo(name = "reputation")
     private long reputation;
 
+    @ColumnInfo(name = "is_bookmarked")
+    private boolean isBookmarked = false;
+
     public long getUserId() {
         return userId;
     }
@@ -71,6 +74,14 @@ public class UserEntity {
 
     public void setReputation(long reputation) {
         this.reputation = reputation;
+    }
+
+    public boolean isBookmarked() {
+        return isBookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
     }
 
     @Override
