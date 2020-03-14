@@ -1,6 +1,6 @@
-package com.example.stackoverflowuser.repository.remote;
+package com.example.stackoverflowuser.data.remote;
 
-import com.example.stackoverflowuser.repository.remote.service.UserService;
+import com.example.stackoverflowuser.data.remote.service.UserService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

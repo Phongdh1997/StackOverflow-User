@@ -3,8 +3,7 @@ package com.example.stackoverflowuser.model;
 import androidx.lifecycle.LiveData;
 import androidx.paging.PagedList;
 
-import com.example.stackoverflowuser.common.NetworkStateValue;
-import com.example.stackoverflowuser.repository.local.entity.UserEntity;
+import com.example.stackoverflowuser.data.local.entity.UserEntity;
 
 public class UserPagedListResult {
     private LiveData<PagedList<UserEntity>> userPagedListLiveData;

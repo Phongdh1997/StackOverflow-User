@@ -2,7 +2,6 @@ package com.example.stackoverflowuser.adapter;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stackoverflowuser.R;
-import com.example.stackoverflowuser.repository.local.entity.UserEntity;
+import com.example.stackoverflowuser.data.local.entity.UserEntity;
 
 public class UserPagedListAdapter
         extends PagedListAdapter<UserEntity, UserPagedListAdapter.UserItemViewHolder> {

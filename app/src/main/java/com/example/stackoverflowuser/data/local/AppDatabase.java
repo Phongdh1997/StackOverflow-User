@@ -1,17 +1,13 @@
-package com.example.stackoverflowuser.repository.local;
+package com.example.stackoverflowuser.data.local;
 
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.example.stackoverflowuser.repository.local.dao.UserDao;
-import com.example.stackoverflowuser.repository.local.entity.UserEntity;
-
-import java.util.concurrent.Executors;
+import com.example.stackoverflowuser.data.local.dao.UserDao;
+import com.example.stackoverflowuser.data.local.entity.UserEntity;
 
 @Database(entities = {UserEntity.class}, exportSchema = false, version = 2)
 public abstract class AppDatabase extends RoomDatabase {

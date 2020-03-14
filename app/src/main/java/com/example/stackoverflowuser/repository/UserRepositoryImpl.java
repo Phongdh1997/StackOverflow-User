@@ -8,10 +8,10 @@ import androidx.paging.PagedList;
 import com.example.stackoverflowuser.common.UserPagedListConfig;
 import com.example.stackoverflowuser.model.UserPagedListResult;
 import com.example.stackoverflowuser.model.business.UserPagedListBoundaryCallback;
-import com.example.stackoverflowuser.repository.local.dao.UserDao;
-import com.example.stackoverflowuser.repository.local.entity.UserEntity;
-import com.example.stackoverflowuser.repository.remote.RetrofitClient;
-import com.example.stackoverflowuser.repository.remote.service.UserService;
+import com.example.stackoverflowuser.data.local.dao.UserDao;
+import com.example.stackoverflowuser.data.local.entity.UserEntity;
+import com.example.stackoverflowuser.data.remote.RetrofitClient;
+import com.example.stackoverflowuser.data.remote.service.UserService;
 
 public class UserRepositoryImpl implements UserRepository {
 

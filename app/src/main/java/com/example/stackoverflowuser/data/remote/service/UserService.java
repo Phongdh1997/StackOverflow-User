@@ -1,6 +1,6 @@
-package com.example.stackoverflowuser.repository.remote.service;
+package com.example.stackoverflowuser.data.remote.service;
 
-import com.example.stackoverflowuser.repository.remote.model.UserResultGSON;
+import com.example.stackoverflowuser.data.remote.model.UserResultGSON;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

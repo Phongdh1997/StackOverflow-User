@@ -1,4 +1,4 @@
-package com.example.stackoverflowuser.repository.local.dao;
+package com.example.stackoverflowuser.data.local.dao;
 
 import androidx.paging.DataSource;
 import androidx.room.Dao;
@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.stackoverflowuser.repository.local.entity.UserEntity;
+import com.example.stackoverflowuser.data.local.entity.UserEntity;
 
 import java.util.List;
 

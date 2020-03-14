@@ -9,10 +9,10 @@ import androidx.paging.PagedList;
 
 import com.example.stackoverflowuser.common.NetworkStateValue;
 import com.example.stackoverflowuser.common.UserPagedListConfig;
-import com.example.stackoverflowuser.repository.local.dao.UserDao;
-import com.example.stackoverflowuser.repository.local.entity.UserEntity;
-import com.example.stackoverflowuser.repository.remote.model.UserResultGSON;
-import com.example.stackoverflowuser.repository.remote.service.UserService;
+import com.example.stackoverflowuser.data.local.dao.UserDao;
+import com.example.stackoverflowuser.data.local.entity.UserEntity;
+import com.example.stackoverflowuser.data.remote.model.UserResultGSON;
+import com.example.stackoverflowuser.data.remote.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;

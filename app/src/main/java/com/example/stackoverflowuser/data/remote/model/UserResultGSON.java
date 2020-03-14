@@ -1,6 +1,4 @@
-package com.example.stackoverflowuser.repository.remote.model;
-
-import android.content.ClipData;
+package com.example.stackoverflowuser.data.remote.model;
 
 import androidx.annotation.NonNull;
 

@@ -1,4 +1,4 @@
-package com.example.stackoverflowuser.repository.local.entity;
+package com.example.stackoverflowuser.data.local.entity;
 
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.example.stackoverflowuser.repository.remote.model.UserResultGSON;
+import com.example.stackoverflowuser.data.remote.model.UserResultGSON;
 
 @Entity (tableName = "user")
 public class UserEntity {

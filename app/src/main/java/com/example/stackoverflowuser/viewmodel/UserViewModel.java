@@ -2,23 +2,19 @@ package com.example.stackoverflowuser.viewmodel;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import androidx.paging.PagedList;
 
-import com.example.stackoverflowuser.common.NetworkStateValue;
 import com.example.stackoverflowuser.model.UserPagedListResult;
 import com.example.stackoverflowuser.model.business.BookmarkedOption;
 import com.example.stackoverflowuser.repository.UserRepository;
 import com.example.stackoverflowuser.repository.UserRepositoryImpl;
-import com.example.stackoverflowuser.repository.local.AppDatabase;
-import com.example.stackoverflowuser.repository.local.entity.UserEntity;
+import com.example.stackoverflowuser.data.local.AppDatabase;
+import com.example.stackoverflowuser.data.local.entity.UserEntity;
 
 public class UserViewModel extends AndroidViewModel {
     private Context context;
