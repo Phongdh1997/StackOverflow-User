@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.stackoverflowuser.adapter.UserPagedListAdapter;
@@ -18,7 +20,9 @@ import com.example.stackoverflowuser.viewmodel.UserViewModel;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rcUserList;
+    private UserPagedListAdapter adapter;
     private UserViewModel userViewModel;
+    private Switch swShowBookmarkedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
         addViewModelObsever();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        userViewModel.onSaveBookmarkedOption();
+    }
+
     private void getViewModel() {
         userViewModel = ViewModelProvider.AndroidViewModelFactory
                 .getInstance(getApplication())
@@ -40,33 +50,31 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         rcUserList = findViewById(R.id.rcUserList);
         rcUserList.setHasFixedSize(true);
-        UserPagedListAdapter adapter = new UserPagedListAdapter();
+        adapter = new UserPagedListAdapter();
         LiveData<PagedList<UserEntity>> userPagedListLiveData = userViewModel.getUserPagedListLiveData();
         userPagedListLiveData.observe(this, adapter::submitList);
         rcUserList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         rcUserList.setAdapter(adapter);
 
-        adapter.getItemClickedLiveData().observe(this, new Observer<UserEntity>() {
-            @Override
-            public void onChanged(UserEntity userEntity) {
-                Toast.makeText(MainActivity.this, userEntity.getDisplayName(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        adapter.getBookmarkedClickedLiveData().observe(this, new Observer<UserEntity>() {
-            @Override
-            public void onChanged(UserEntity userEntity) {
-                Toast.makeText(MainActivity.this, "Bookmarked", Toast.LENGTH_SHORT).show();
-                userEntity.setBookmarked(true);
-                userViewModel.updateUser(userEntity);
-            }
-        });
+        // switch button
+        swShowBookmarkedUser = findViewById(R.id.swShowBookmarkedUser);
+        swShowBookmarkedUser.setChecked(userViewModel.onLoadBookmarkedOption());
     }
 
     private void addEvent() {
-
+        adapter.getItemClickedLiveData().observe(this, userEntity -> Toast.makeText(MainActivity.this, userEntity.getDisplayName(), Toast.LENGTH_SHORT).show());
+        adapter.getBookmarkedClickedLiveData().observe(this, userEntity -> {
+            userEntity.setBookmarked(true);
+            userViewModel.onUpdateUser(userEntity);
+        });
+        swShowBookmarkedUser.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            userViewModel.onBookmarkedOptionChange(isChecked);
+        });
     }
 
     private void addViewModelObsever() {
-
+        userViewModel.getBookmarkedOptionLiveData().observe(this, bookmarkedOption -> {
+            Toast.makeText(MainActivity.this, "bookmarked " + bookmarkedOption.isBookmarked(), Toast.LENGTH_SHORT).show();
+        });
     }
 }

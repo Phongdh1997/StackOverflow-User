@@ -73,21 +73,13 @@ public class UserPagedListAdapter
         }
 
         private void setOnItemClickListener (ConstraintLayout itemView, MutableLiveData<UserEntity> itemClickedLiveData) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    itemClickedLiveData.postValue(currentUser);
-                }
-            });
+            itemView.setOnClickListener(v -> itemClickedLiveData.postValue(currentUser));
         }
 
         private void setOnBookmarkedClickListener (ImageView ivBookMarked, MutableLiveData<UserEntity> bookmarkedClickLiveData) {
-            ivBookMarked.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    bookmarkedClickLiveData.postValue(currentUser);
-                    ivBookMarked.setColorFilter(Color.YELLOW);
-                }
+            ivBookMarked.setOnClickListener(v -> {
+                bookmarkedClickLiveData.postValue(currentUser);
+                ivBookMarked.setColorFilter(Color.YELLOW);
             });
         }
     }
