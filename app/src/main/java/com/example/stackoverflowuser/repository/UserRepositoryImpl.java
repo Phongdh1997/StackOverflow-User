@@ -6,7 +6,7 @@ import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
-import com.example.stackoverflowuser.common.UserLoadType;
+import com.example.stackoverflowuser.annotation.UserLoadType;
 import com.example.stackoverflowuser.common.UserPagedListConfig;
 import com.example.stackoverflowuser.model.UserPagedListResult;
 import com.example.stackoverflowuser.model.UserPagedListBoundaryCallback;

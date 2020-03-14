@@ -1,12 +1,12 @@
-package com.example.stackoverflowuser.common;
+package com.example.stackoverflowuser.annotation;
 
 import androidx.annotation.StringDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static com.example.stackoverflowuser.common.UserLoadType.ALL_USER;
-import static com.example.stackoverflowuser.common.UserLoadType.BOOKMARKED_USER;
+import static com.example.stackoverflowuser.annotation.UserLoadType.ALL_USER;
+import static com.example.stackoverflowuser.annotation.UserLoadType.BOOKMARKED_USER;
 
 @StringDef({ALL_USER, BOOKMARKED_USER})
 @Retention(RetentionPolicy.RUNTIME)

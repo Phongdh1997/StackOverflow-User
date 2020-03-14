@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
 
-import com.example.stackoverflowuser.common.UserLoadType;
+import com.example.stackoverflowuser.annotation.UserLoadType;
 import com.example.stackoverflowuser.model.UserPagedListResult;
 import com.example.stackoverflowuser.model.BookmarkedOption;
 import com.example.stackoverflowuser.repository.UserRepository;

@@ -1,9 +1,7 @@
 package com.example.stackoverflowuser;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,8 +10,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.stackoverflowuser.adapter.UserPagedListAdapter;
-import com.example.stackoverflowuser.common.UserLoadType;
-import com.example.stackoverflowuser.data.local.entity.UserEntity;
+import com.example.stackoverflowuser.annotation.UserLoadType;
 import com.example.stackoverflowuser.viewmodel.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
