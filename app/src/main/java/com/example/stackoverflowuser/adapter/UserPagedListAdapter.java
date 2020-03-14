@@ -61,25 +61,32 @@ public class UserPagedListAdapter
             if (userEntity != null) {
                 currentUser = userEntity;
                 txtName.setText(userEntity.getDisplayName());
-                if (currentUser.isBookmarked()) {
-                    ivBookMarked.setColorFilter(Color.YELLOW);
-                } else {
-                    ivBookMarked.setColorFilter(0xf1f3f4);
-                }
+                setIvBookMarkedColor(ivBookMarked, currentUser.isBookmarked());
 
                 // TODO: load Avatar here
             }
         }
 
         private void setOnItemClickListener (ConstraintLayout itemView, MutableLiveData<UserEntity> itemClickedLiveData) {
-            itemView.setOnClickListener(v -> itemClickedLiveData.postValue(currentUser));
+            itemView.setOnClickListener(v -> {
+                itemClickedLiveData.postValue(currentUser);
+            });
         }
 
         private void setOnBookmarkedClickListener (ImageView ivBookMarked, MutableLiveData<UserEntity> bookmarkedClickLiveData) {
             ivBookMarked.setOnClickListener(v -> {
+                currentUser.toggleBookmarked();     // toggle bookmarked user
                 bookmarkedClickLiveData.postValue(currentUser);
-                ivBookMarked.setColorFilter(Color.YELLOW);
+                setIvBookMarkedColor(ivBookMarked, currentUser.isBookmarked());
             });
+        }
+
+        private void setIvBookMarkedColor(ImageView imv, boolean isBookmarked) {
+            if (isBookmarked) {
+                imv.setColorFilter(Color.YELLOW);
+            } else {
+                imv.setColorFilter(0xf1f3f4);
+            }
         }
     }
 

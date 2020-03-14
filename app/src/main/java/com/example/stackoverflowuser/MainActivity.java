@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
     private void addEvent() {
         adapter.getItemClickedLiveData().observe(this, userEntity -> Toast.makeText(MainActivity.this, userEntity.getDisplayName(), Toast.LENGTH_SHORT).show());
         adapter.getBookmarkedClickedLiveData().observe(this, userEntity -> {
-            userEntity.setBookmarked(true);
             userViewModel.onUpdateUser(userEntity);
         });
         swShowBookmarkedUser.setOnCheckedChangeListener((buttonView, isChecked) -> {

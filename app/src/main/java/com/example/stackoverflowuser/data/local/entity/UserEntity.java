@@ -84,6 +84,10 @@ public class UserEntity {
         isBookmarked = bookmarked;
     }
 
+    public void toggleBookmarked() {
+        isBookmarked = !isBookmarked;
+    }
+
     @Override
     public boolean equals(@Nullable Object obj) {
         if (obj instanceof UserEntity) {
