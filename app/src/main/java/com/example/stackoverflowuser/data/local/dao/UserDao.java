@@ -22,6 +22,9 @@ public interface UserDao {
     @Query("SELECT * FROM user ORDER BY userId ASC")
     DataSource.Factory<Integer, UserEntity> getUsers();
 
+    @Query("SELECT * FROM user WHERE is_bookmarked = 1 ORDER BY userId ASC")
+    DataSource.Factory<Integer, UserEntity> getBookmarkedUsers();
+
     @Update
     void updateUser(UserEntity userEntity);
 }

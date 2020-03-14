@@ -12,6 +12,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.stackoverflowuser.adapter.UserPagedListAdapter;
+import com.example.stackoverflowuser.common.UserLoadType;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
 import com.example.stackoverflowuser.viewmodel.UserViewModel;
 
@@ -49,14 +50,14 @@ public class MainActivity extends AppCompatActivity {
         rcUserList = findViewById(R.id.rcUserList);
         rcUserList.setHasFixedSize(true);
         adapter = new UserPagedListAdapter();
-        LiveData<PagedList<UserEntity>> userPagedListLiveData = userViewModel.getUserPagedListLiveData();
-        userPagedListLiveData.observe(this, adapter::submitList);
         rcUserList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         rcUserList.setAdapter(adapter);
 
         // switch button
         swShowBookmarkedUser = findViewById(R.id.swShowBookmarkedUser);
-        swShowBookmarkedUser.setChecked(userViewModel.onLoadBookmarkedOption());
+        boolean isBookmarked = userViewModel.onLoadBookmarkedOption();
+        swShowBookmarkedUser.setChecked(isBookmarked);
+        setPagedListObserver(isBookmarked);
     }
 
     private void addEvent() {
@@ -73,6 +74,18 @@ public class MainActivity extends AppCompatActivity {
     private void addViewModelObsever() {
         userViewModel.getBookmarkedOptionLiveData().observe(this, bookmarkedOption -> {
             Toast.makeText(MainActivity.this, "bookmarked " + bookmarkedOption.isBookmarked(), Toast.LENGTH_SHORT).show();
+            setPagedListObserver(bookmarkedOption.isBookmarked());
         });
+    }
+
+    private void setPagedListObserver(boolean isBookmarked) {
+        if (isBookmarked) {
+            userViewModel.getUserPagedListLiveData(UserLoadType.ALL_USER).removeObservers(this);
+            userViewModel.getUserPagedListLiveData(UserLoadType.BOOKMARKED_USER).observe(this, adapter::submitList);
+        } else {
+            userViewModel.getUserPagedListLiveData(UserLoadType.BOOKMARKED_USER).removeObservers(this);
+            userViewModel.getUserPagedListLiveData(UserLoadType.ALL_USER).observe(this, adapter::submitList);
+        }
+
     }
 }

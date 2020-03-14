@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
 
+import com.example.stackoverflowuser.common.UserLoadType;
 import com.example.stackoverflowuser.model.UserPagedListResult;
 import com.example.stackoverflowuser.model.business.BookmarkedOption;
 import com.example.stackoverflowuser.repository.UserRepository;
@@ -18,7 +19,8 @@ import com.example.stackoverflowuser.data.local.entity.UserEntity;
 
 public class UserViewModel extends AndroidViewModel {
     private Context context;
-    private UserPagedListResult userPagedListResult;
+    private UserPagedListResult allUserPagedListResult; // list for show all of users
+    private UserPagedListResult bookmarkedUserPagedListResult;  // list for show only bookmarked user
     private UserRepository userRepository;
     private MutableLiveData<BookmarkedOption> bookmarkedOptionLiveData = new MutableLiveData<>();
     private BookmarkedOption bookmarkedOption = new BookmarkedOption(false);
@@ -27,15 +29,24 @@ public class UserViewModel extends AndroidViewModel {
         super(application);
         context = application.getApplicationContext();
         userRepository = new UserRepositoryImpl(AppDatabase.getInstance(context).userDao());
-        userPagedListResult = userRepository.loadUsers();
+        allUserPagedListResult = userRepository.loadUsers(UserLoadType.ALL_USER);
+        bookmarkedUserPagedListResult = userRepository.loadUsers(UserLoadType.BOOKMARKED_USER);
     }
 
-    public LiveData<PagedList<UserEntity>> getUserPagedListLiveData() {
-        return userPagedListResult.getUserPagedListLiveData();
+    public LiveData<PagedList<UserEntity>> getUserPagedListLiveData(@UserLoadType String loadType) {
+        switch (loadType) {
+            case UserLoadType.ALL_USER:
+                return allUserPagedListResult.getUserPagedListLiveData();
+            case UserLoadType.BOOKMARKED_USER:
+                return bookmarkedUserPagedListResult.getUserPagedListLiveData();
+                default:
+                    break;
+        }
+        return allUserPagedListResult.getUserPagedListLiveData();
     }
 
     public LiveData<String> getNetworkStateLiveData () {
-        return userPagedListResult.getNetworkStateLiveData();
+        return allUserPagedListResult.getNetworkStateLiveData();
     }
 
     public LiveData<BookmarkedOption> getBookmarkedOptionLiveData () {
