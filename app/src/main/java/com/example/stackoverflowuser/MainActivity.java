@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.stackoverflowuser.adapter.UserPagedListAdapter;
 import com.example.stackoverflowuser.annotation.UserLoadType;
+import com.example.stackoverflowuser.ui.detail_info.DetailUserInfoPopup;
 import com.example.stackoverflowuser.viewmodel.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private UserPagedListAdapter adapter;
     private UserViewModel userViewModel;
     private Switch swShowBookmarkedUser;
+    private DetailUserInfoPopup detailUserInfoPopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +57,15 @@ public class MainActivity extends AppCompatActivity {
         boolean isBookmarked = userViewModel.onLoadBookmarkedOption();
         swShowBookmarkedUser.setChecked(isBookmarked);
         setPagedListObserver(isBookmarked);
+
+        // detail info Popup
+        detailUserInfoPopup = new DetailUserInfoPopup(this);
     }
 
     private void addEvent() {
-        adapter.getItemClickedLiveData().observe(this, userEntity -> Toast.makeText(MainActivity.this, userEntity.getDisplayName(), Toast.LENGTH_SHORT).show());
+        adapter.getItemClickedLiveData().observe(this, userEntity -> {
+            detailUserInfoPopup.showPopup();
+        });
         adapter.getBookmarkedClickedLiveData().observe(this, userEntity -> {
             userViewModel.onUpdateUser(userEntity);
         });
