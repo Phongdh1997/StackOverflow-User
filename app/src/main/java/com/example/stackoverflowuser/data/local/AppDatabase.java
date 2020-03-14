@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.example.stackoverflowuser.data.local.dao.UserDao;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
 
-@Database(entities = {UserEntity.class}, exportSchema = false, version = 2)
+@Database(entities = {UserEntity.class}, exportSchema = false, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase appDatabase;
 

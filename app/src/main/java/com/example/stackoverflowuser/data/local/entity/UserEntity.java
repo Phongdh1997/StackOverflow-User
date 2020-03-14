@@ -7,6 +7,12 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.example.stackoverflowuser.data.remote.model.UserResultGSON;
+import com.example.stackoverflowuser.util.DateStringConverter;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 @Entity (tableName = "user")
 public class UserEntity {
@@ -27,6 +33,8 @@ public class UserEntity {
         this.displayName = userItem.getDisplayName();
         this.profileImage = userItem.getProfileImage();
         this.reputation = userItem.getReputation();
+        this.location = userItem.getLocation();
+        this.lastAccessDate = userItem.getLastAccessDate();
     }
 
     @PrimaryKey
@@ -43,6 +51,12 @@ public class UserEntity {
 
     @ColumnInfo(name = "is_bookmarked")
     private boolean isBookmarked = false;
+
+    @ColumnInfo(name = "location")
+    private String location;
+
+    @ColumnInfo(name = "last_access_date")
+    private long lastAccessDate;
 
     public long getUserId() {
         return userId;
@@ -86,6 +100,26 @@ public class UserEntity {
 
     public void toggleBookmarked() {
         isBookmarked = !isBookmarked;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public long getLastAccessDate() {
+        return lastAccessDate;
+    }
+
+    public void setLastAccessDate(long lastAccessDate) {
+        this.lastAccessDate = lastAccessDate;
+    }
+
+    public String getLastAccessDateString() {
+        return DateStringConverter.timeToDateString(lastAccessDate);
     }
 
     @Override

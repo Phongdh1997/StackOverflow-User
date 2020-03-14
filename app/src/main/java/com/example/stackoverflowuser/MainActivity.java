@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void addViewModelObsever() {
         userViewModel.getBookmarkedOptionLiveData().observe(this, bookmarkedOption -> {
-            Toast.makeText(MainActivity.this, "bookmarked " + bookmarkedOption.isBookmarked(), Toast.LENGTH_SHORT).show();
             setPagedListObserver(bookmarkedOption.isBookmarked());
         });
     }

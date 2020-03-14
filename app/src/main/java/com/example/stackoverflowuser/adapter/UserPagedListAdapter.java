@@ -40,10 +40,13 @@ public class UserPagedListAdapter
     }
 
     public static class UserItemViewHolder extends RecyclerView.ViewHolder {
+        private UserEntity currentUser;
+
         private TextView txtName;
         private ImageView ivAvatar;
         private ImageView ivBookMarked;
-        private UserEntity currentUser;
+        private TextView txtLastAccessDate;
+        private TextView txtLocation;
 
         public UserItemViewHolder(@NonNull ConstraintLayout itemView,
                                   MutableLiveData<UserEntity> itemClickedLiveData,
@@ -52,6 +55,8 @@ public class UserPagedListAdapter
             txtName = itemView.findViewById(R.id.txtName);
             ivAvatar = itemView.findViewById(R.id.ivAvatar);
             ivBookMarked = itemView.findViewById(R.id.ivBookMarked);
+            txtLastAccessDate = itemView.findViewById(R.id.txtLastAccessDate);
+            txtLocation = itemView.findViewById(R.id.txtLocation);
             ConstraintLayout userConstraintLayout = itemView.findViewById(R.id.userLayout);
             setOnItemClickListener(userConstraintLayout, itemClickedLiveData);
             setOnBookmarkedClickListener(ivBookMarked, bookmarkedClickLiveData);
@@ -61,6 +66,8 @@ public class UserPagedListAdapter
             if (userEntity != null) {
                 currentUser = userEntity;
                 txtName.setText(userEntity.getDisplayName());
+                txtLocation.setText(userEntity.getLocation());
+                txtLastAccessDate.setText(userEntity.getLastAccessDateString());
                 setIvBookMarkedColor(ivBookMarked, currentUser.isBookmarked());
 
                 // TODO: load Avatar here
