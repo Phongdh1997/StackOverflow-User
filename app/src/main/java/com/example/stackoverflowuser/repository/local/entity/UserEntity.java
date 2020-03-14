@@ -30,16 +30,59 @@ public class UserEntity {
     }
 
     @PrimaryKey
-    public long userId;
+    private long userId;
 
     @ColumnInfo(name = "display_name")
-    public String displayName;
+    private String displayName;
 
     @ColumnInfo(name = "profile_image")
-    public String profileImage;
+    private String profileImage;
 
     @ColumnInfo(name = "reputation")
-    public long reputation;
+    private long reputation;
+
+    @ColumnInfo(name = "is_bookmarked")
+    private boolean isBookmarked = false;
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public long getReputation() {
+        return reputation;
+    }
+
+    public void setReputation(long reputation) {
+        this.reputation = reputation;
+    }
+
+    public boolean isBookmarked() {
+        return isBookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
+    }
 
     @Override
     public boolean equals(@Nullable Object obj) {

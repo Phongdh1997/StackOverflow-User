@@ -1,7 +1,8 @@
 package com.example.stackoverflowuser.adapter;
 
-import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,35 +22,84 @@ import com.example.stackoverflowuser.repository.local.entity.UserEntity;
 public class UserPagedListAdapter
         extends PagedListAdapter<UserEntity, UserPagedListAdapter.UserItemViewHolder> {
 
+    // obseverable for item clicked on recycleView
+    private final MutableLiveData<UserEntity> itemClickedLiveData = new MutableLiveData<>();
+
+    // obseverable for bookmarked clicked on recycleView
+    private final MutableLiveData<UserEntity> bookmarkedClickedLiveData = new MutableLiveData<>();
+
     public UserPagedListAdapter() {
         super(DIFF_CALLBACK);
     }
 
-    public static class UserItemViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtName;
-        public ImageView ivAvatar;
+    public LiveData<UserEntity> getItemClickedLiveData() {
+        return itemClickedLiveData;
+    }
 
-        public UserItemViewHolder(@NonNull ConstraintLayout itemView) {
+    public LiveData<UserEntity> getBookmarkedClickedLiveData() {
+        return bookmarkedClickedLiveData;
+    }
+
+    public static class UserItemViewHolder extends RecyclerView.ViewHolder {
+        private TextView txtName;
+        private ImageView ivAvatar;
+        private ImageView ivBookMarked;
+        private UserEntity currentUser;
+
+        public UserItemViewHolder(@NonNull ConstraintLayout itemView,
+                                  MutableLiveData<UserEntity> itemClickedLiveData,
+                                  MutableLiveData<UserEntity> bookmarkedClickLiveData) {
             super(itemView);
             txtName = itemView.findViewById(R.id.txtName);
             ivAvatar = itemView.findViewById(R.id.ivAvatar);
+            ivBookMarked = itemView.findViewById(R.id.ivBookMarked);
+            ConstraintLayout userConstraintLayout = itemView.findViewById(R.id.userLayout);
+            setOnItemClickListener(userConstraintLayout, itemClickedLiveData);
+            setOnBookmarkedClickListener(ivBookMarked, bookmarkedClickLiveData);
+        }
+
+        public void bindTo(UserEntity userEntity) {
+            if (userEntity != null) {
+                currentUser = userEntity;
+                txtName.setText(userEntity.getDisplayName());
+                if (currentUser.isBookmarked()) {
+                    ivBookMarked.setColorFilter(Color.YELLOW);
+                } else {
+                    ivBookMarked.setColorFilter(0xf1f3f4);
+                }
+
+                // TODO: load Avatar here
+            }
+        }
+
+        private void setOnItemClickListener (ConstraintLayout itemView, MutableLiveData<UserEntity> itemClickedLiveData) {
+            itemView.setOnClickListener(v -> itemClickedLiveData.postValue(currentUser));
+        }
+
+        private void setOnBookmarkedClickListener (ImageView ivBookMarked, MutableLiveData<UserEntity> bookmarkedClickLiveData) {
+            ivBookMarked.setOnClickListener(v -> {
+                bookmarkedClickLiveData.postValue(currentUser);
+                ivBookMarked.setColorFilter(Color.YELLOW);
+            });
         }
     }
 
     @NonNull
     @Override
     public UserItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ConstraintLayout recyclerViewUserItemLayout = (ConstraintLayout) LayoutInflater.from(parent.getContext())
+        ConstraintLayout recyclerViewUserItemLayout = (ConstraintLayout) LayoutInflater
+                .from(parent.getContext())
                 .inflate(R.layout.recycler_view_user_item_layout, parent, false);
-        return new UserPagedListAdapter.UserItemViewHolder(recyclerViewUserItemLayout);
+        return new UserPagedListAdapter.UserItemViewHolder(
+                recyclerViewUserItemLayout,
+                itemClickedLiveData,
+                bookmarkedClickedLiveData);
     }
 
     @Override
     public void onBindViewHolder(@NonNull UserItemViewHolder holder, int position) {
-        UserEntity item = getItem(position);
-        if (item != null) {
-            holder.txtName.setText(item.displayName);
-        }
+        UserEntity userEntity = getItem(position);
+        holder.bindTo(userEntity);
     }
 
     private static DiffUtil.ItemCallback<UserEntity> DIFF_CALLBACK =
@@ -56,7 +108,7 @@ public class UserPagedListAdapter
                 // but ID is fixed.
                 @Override
                 public boolean areItemsTheSame(UserEntity oldConcert, UserEntity newConcert) {
-                    return oldConcert.userId == newConcert.userId;
+                    return oldConcert.getUserId() == newConcert.getUserId();
                 }
 
                 @Override
