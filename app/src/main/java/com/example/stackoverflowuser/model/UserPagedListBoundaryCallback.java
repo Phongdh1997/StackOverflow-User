@@ -1,4 +1,4 @@
-package com.example.stackoverflowuser.model.business;
+package com.example.stackoverflowuser.model;
 
 import android.util.Log;
 

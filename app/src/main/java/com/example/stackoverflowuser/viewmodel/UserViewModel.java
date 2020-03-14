@@ -11,7 +11,7 @@ import androidx.paging.PagedList;
 
 import com.example.stackoverflowuser.common.UserLoadType;
 import com.example.stackoverflowuser.model.UserPagedListResult;
-import com.example.stackoverflowuser.model.business.BookmarkedOption;
+import com.example.stackoverflowuser.model.BookmarkedOption;
 import com.example.stackoverflowuser.repository.UserRepository;
 import com.example.stackoverflowuser.repository.UserRepositoryImpl;
 import com.example.stackoverflowuser.data.local.AppDatabase;
