@@ -1,4 +1,4 @@
-package com.example.stackoverflowuser.repository.local;
+package com.example.stackoverflowuser.data.local;
 
 import android.content.Context;
 
@@ -6,10 +6,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.stackoverflowuser.repository.local.dao.UserDao;
-import com.example.stackoverflowuser.repository.local.entity.UserEntity;
+import com.example.stackoverflowuser.data.local.dao.UserDao;
+import com.example.stackoverflowuser.data.local.entity.UserEntity;
 
-@Database(entities = {UserEntity.class}, exportSchema = false, version = 1)
+@Database(entities = {UserEntity.class}, exportSchema = false, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase appDatabase;
 
@@ -18,7 +18,9 @@ public abstract class AppDatabase extends RoomDatabase {
             appDatabase = Room.databaseBuilder(
                     context.getApplicationContext(),
                     AppDatabase.class,
-                    "app-database").build();
+                    "app-database")
+                    .fallbackToDestructiveMigration()
+                    .build();
         }
         return appDatabase;
     }

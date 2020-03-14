@@ -1,6 +1,4 @@
-package com.example.stackoverflowuser.repository.remote.model;
-
-import android.content.ClipData;
+package com.example.stackoverflowuser.data.remote.model;
 
 import androidx.annotation.NonNull;
 
@@ -9,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class StackOverflowUserResultGSON {
+public class UserResultGSON {
     @SerializedName("items")
     @Expose
     private List<UserItem> items;
@@ -35,15 +33,26 @@ public class StackOverflowUserResultGSON {
         @SerializedName("reputation")
         @Expose
         private Long reputation;
+
         @SerializedName("user_id")
         @Expose
         private Long userId;
+
         @SerializedName("profile_image")
         @Expose
         private String profileImage;
+
         @SerializedName("display_name")
         @Expose
         private String displayName;
+
+        @SerializedName("location")
+        @Expose
+        private String location;
+
+        @SerializedName("last_access_date")
+        @Expose
+        private long lastAccessDate;
 
         public Long getReputation() {
             return reputation;
@@ -59,6 +68,14 @@ public class StackOverflowUserResultGSON {
 
         public String getDisplayName() {
             return displayName;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public long getLastAccessDate() {
+            return lastAccessDate;
         }
 
         @NonNull

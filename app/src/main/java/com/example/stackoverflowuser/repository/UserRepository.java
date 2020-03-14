@@ -1,12 +1,10 @@
 package com.example.stackoverflowuser.repository;
 
-import androidx.lifecycle.LiveData;
-
-import com.example.stackoverflowuser.model.User;
-
-import java.util.List;
+import com.example.stackoverflowuser.annotation.UserLoadType;
+import com.example.stackoverflowuser.model.UserPagedListResult;
+import com.example.stackoverflowuser.data.local.entity.UserEntity;
 
 public interface UserRepository {
-    void loadNewUsers(int page, int pageSize);
-    LiveData<List<User>> loadUsers();
+    UserPagedListResult loadUsers(@UserLoadType String loadType);
+    void updateUser(UserEntity userEntity);
 }
