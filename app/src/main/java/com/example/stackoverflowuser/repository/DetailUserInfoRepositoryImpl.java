@@ -7,7 +7,6 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
 import com.example.stackoverflowuser.common.UserPagedListConfig;
-import com.example.stackoverflowuser.data.local.entity.DetailUserInfoEntity;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
 import com.example.stackoverflowuser.data.remote.RetrofitClient;
 import com.example.stackoverflowuser.data.remote.model.ReputationDetailItem;
@@ -37,10 +36,5 @@ public class DetailUserInfoRepositoryImpl implements DetailUserInfoRepository {
         LiveData<PagedList<ReputationDetailItem>> userPagedListLiveData = new LivePagedListBuilder<>(
                 dataSource, userPagedListConfig).build();
         return new PagedListResult<>(userPagedListLiveData, new MutableLiveData<>());
-    }
-
-    @Override
-    public void updateUser(DetailUserInfoEntity detailUserInfoEntity) {
-
     }
 }
