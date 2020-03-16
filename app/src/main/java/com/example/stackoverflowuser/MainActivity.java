@@ -11,7 +11,7 @@ import android.widget.Switch;
 
 import com.example.stackoverflowuser.adapter.UserPagedListAdapter;
 import com.example.stackoverflowuser.annotation.UserLoadType;
-import com.example.stackoverflowuser.ui.detail_info.DetailUserInfoActivity;
+import com.example.stackoverflowuser.ui.DetailUserInfoActivity;
 import com.example.stackoverflowuser.viewmodel.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {

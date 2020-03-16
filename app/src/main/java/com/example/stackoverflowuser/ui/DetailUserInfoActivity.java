@@ -1,4 +1,4 @@
-package com.example.stackoverflowuser.ui.detail_info;
+package com.example.stackoverflowuser.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
