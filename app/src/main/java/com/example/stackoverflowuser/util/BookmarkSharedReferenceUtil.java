@@ -15,8 +15,6 @@ public class BookmarkSharedReferenceUtil extends SharedReferencesUtil {
     }
 
     public static boolean loadBookmarkedOption(Context context) {
-        SharedPreferences sharedPreferences = getSharedReference(context);
-        sharedPreferences.getBoolean(BOOK_MARKED_OPTION_FIELD, false);
-        return sharedPreferences.getBoolean(BOOK_MARKED_OPTION_FIELD, false);
+        return getSharedReference(context).getBoolean(BOOK_MARKED_OPTION_FIELD, false);
     }
 }
