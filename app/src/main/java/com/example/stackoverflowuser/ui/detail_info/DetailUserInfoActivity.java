@@ -1,16 +1,21 @@
 package com.example.stackoverflowuser.ui.detail_info;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
 import com.example.stackoverflowuser.R;
+import com.example.stackoverflowuser.adapter.DetailUserInfoAdapter;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
 
 public class DetailUserInfoActivity extends AppCompatActivity {
     public static final String USER_EXTRA_INTENT_FIELD = "user";
 
     private UserEntity user;
+    private RecyclerView rvDetailUserInfo;
+    private DetailUserInfoAdapter detailUserInfoPagedListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +33,11 @@ public class DetailUserInfoActivity extends AppCompatActivity {
     }
 
     private void initView() {
-
+        rvDetailUserInfo = findViewById(R.id.rcUserDetailInfoList);
+        rvDetailUserInfo.setHasFixedSize(true);
+        detailUserInfoPagedListAdapter = new DetailUserInfoAdapter();
+        rvDetailUserInfo.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        rvDetailUserInfo.setAdapter(detailUserInfoPagedListAdapter);
     }
 
     private void addEvent() {
