@@ -2,6 +2,7 @@ package com.example.stackoverflowuser.model;
 
 import android.content.Context;
 
+import com.example.stackoverflowuser.util.BookmarkSharedReferenceUtil;
 import com.example.stackoverflowuser.util.SharedReferencesUtil;
 
 public class BookmarkedOption {
@@ -12,11 +13,11 @@ public class BookmarkedOption {
     }
 
     public void save(Context context) {
-        SharedReferencesUtil.saveBookmarkedOption(context, isBookmarked);
+        BookmarkSharedReferenceUtil.saveBookmarkedOption(context, isBookmarked);
     }
 
     public void load(Context context) {
-        isBookmarked = SharedReferencesUtil.loadBookmarkedOption(context);
+        isBookmarked = BookmarkSharedReferenceUtil.loadBookmarkedOption(context);
     }
 
     public boolean isBookmarked() {
