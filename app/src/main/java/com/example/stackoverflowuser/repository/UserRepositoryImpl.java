@@ -8,7 +8,7 @@ import androidx.paging.PagedList;
 
 import com.example.stackoverflowuser.annotation.UserLoadType;
 import com.example.stackoverflowuser.common.UserPagedListConfig;
-import com.example.stackoverflowuser.model.UserPagedListResult;
+import com.example.stackoverflowuser.model.PagedListResult;
 import com.example.stackoverflowuser.model.UserPagedListBoundaryCallback;
 import com.example.stackoverflowuser.data.local.dao.UserDao;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
@@ -27,10 +27,10 @@ public class UserRepositoryImpl implements UserRepository {
      * Use RoomDB DataSource
      * Custom BoundaryCallback to load data from internet
      *
-     * @return: UserPagedListResult
+     * @return: PagedListResult
      */
     @Override
-    public UserPagedListResult loadUsers(@UserLoadType String loadType) {
+    public PagedListResult<UserEntity> loadUsers(@UserLoadType String loadType) {
         if (loadType.equals(UserLoadType.BOOKMARKED_USER)) {
             return loadBookmarkedUsers();
         } else {
@@ -38,7 +38,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    private UserPagedListResult loadBookmarkedUsers() {
+    private PagedListResult<UserEntity> loadBookmarkedUsers() {
         // Config paged list load data
         PagedList.Config userPagedListConfig = new PagedList.Config.Builder()
                 .setPageSize(UserPagedListConfig.DATABASE_PAGE_SIZE)
@@ -50,10 +50,10 @@ public class UserRepositoryImpl implements UserRepository {
 
         LiveData<PagedList<UserEntity>> userPagedListLiveData = new LivePagedListBuilder<>(
                 dataSource, userPagedListConfig).build();
-        return new UserPagedListResult(userPagedListLiveData, new MutableLiveData<>());
+        return new PagedListResult<>(userPagedListLiveData, new MutableLiveData<>());
     }
 
-    private UserPagedListResult loadAllOfUsers() {
+    private PagedListResult<UserEntity> loadAllOfUsers() {
         // Config paged list load data
         PagedList.Config userPagedListConfig = new PagedList.Config.Builder()
                 .setPageSize(UserPagedListConfig.DATABASE_PAGE_SIZE)
@@ -73,7 +73,7 @@ public class UserRepositoryImpl implements UserRepository {
                 dataSource, userPagedListConfig)
                 .setBoundaryCallback(userPagedListBoundaryCallback)
                 .build();
-        return new UserPagedListResult(userPagedListLiveData, networkStateLiveData);
+        return new PagedListResult<>(userPagedListLiveData, networkStateLiveData);
     }
 
     @Override
