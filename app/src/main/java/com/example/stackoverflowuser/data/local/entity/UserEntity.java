@@ -9,13 +9,14 @@ import androidx.room.PrimaryKey;
 import com.example.stackoverflowuser.data.remote.model.UserResultGSON;
 import com.example.stackoverflowuser.util.DateStringConverter;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
 @Entity (tableName = "user")
-public class UserEntity {
+public class UserEntity implements Serializable {
 
     public UserEntity() {}
 

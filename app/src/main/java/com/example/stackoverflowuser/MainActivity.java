@@ -5,12 +5,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.example.stackoverflowuser.adapter.UserPagedListAdapter;
 import com.example.stackoverflowuser.annotation.UserLoadType;
+import com.example.stackoverflowuser.ui.detail_info.DetailUserInfoActivity;
 import com.example.stackoverflowuser.viewmodel.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -58,7 +59,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addEvent() {
-        adapter.getItemClickedLiveData().observe(this, userEntity -> Toast.makeText(MainActivity.this, userEntity.getDisplayName(), Toast.LENGTH_SHORT).show());
+        adapter.getItemClickedLiveData().observe(this, userEntity -> {
+            Intent intent = new Intent(MainActivity.this, DetailUserInfoActivity.class);
+            intent.putExtra(DetailUserInfoActivity.USER_EXTRA_INTENT_FIELD, userEntity);
+            startActivity(intent);
+        });
         adapter.getBookmarkedClickedLiveData().observe(this, userEntity -> {
             userViewModel.onUpdateUser(userEntity);
         });

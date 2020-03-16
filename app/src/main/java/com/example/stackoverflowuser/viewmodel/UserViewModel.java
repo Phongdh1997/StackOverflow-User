@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
 
 import com.example.stackoverflowuser.annotation.UserLoadType;
-import com.example.stackoverflowuser.model.UserPagedListResult;
+import com.example.stackoverflowuser.model.PagedListResult;
 import com.example.stackoverflowuser.model.BookmarkedOption;
 import com.example.stackoverflowuser.repository.UserRepository;
 import com.example.stackoverflowuser.repository.UserRepositoryImpl;
@@ -19,8 +19,8 @@ import com.example.stackoverflowuser.data.local.entity.UserEntity;
 
 public class UserViewModel extends AndroidViewModel {
     private Context context;
-    private UserPagedListResult allUserPagedListResult; // list for show all of users
-    private UserPagedListResult bookmarkedUserPagedListResult;  // list for show only bookmarked user
+    private PagedListResult<UserEntity> allUserPagedListResult; // list for show all of users
+    private PagedListResult<UserEntity> bookmarkedUserPagedListResult;  // list for show only bookmarked user
     private UserRepository userRepository;
     private MutableLiveData<BookmarkedOption> bookmarkedOptionLiveData = new MutableLiveData<>();
     private BookmarkedOption bookmarkedOption = new BookmarkedOption(false);
@@ -36,13 +36,13 @@ public class UserViewModel extends AndroidViewModel {
     public LiveData<PagedList<UserEntity>> getUserPagedListLiveData(@UserLoadType String loadType) {
         switch (loadType) {
             case UserLoadType.ALL_USER:
-                return allUserPagedListResult.getUserPagedListLiveData();
+                return allUserPagedListResult.getPagedListLiveData();
             case UserLoadType.BOOKMARKED_USER:
-                return bookmarkedUserPagedListResult.getUserPagedListLiveData();
+                return bookmarkedUserPagedListResult.getPagedListLiveData();
                 default:
                     break;
         }
-        return allUserPagedListResult.getUserPagedListLiveData();
+        return allUserPagedListResult.getPagedListLiveData();
     }
 
     public LiveData<String> getNetworkStateLiveData () {

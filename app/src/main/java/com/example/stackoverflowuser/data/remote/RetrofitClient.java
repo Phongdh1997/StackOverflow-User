@@ -1,5 +1,6 @@
 package com.example.stackoverflowuser.data.remote;
 
+import com.example.stackoverflowuser.data.remote.service.DetailUserInfoService;
 import com.example.stackoverflowuser.data.remote.service.UserService;
 
 import retrofit2.Retrofit;
@@ -14,5 +15,8 @@ public class RetrofitClient {
 
     public static UserService getUserService() {
         return retrofit.create(UserService.class);
+    }
+    public static DetailUserInfoService getDetailUserInfoService() {
+        return retrofit.create(DetailUserInfoService.class);
     }
 }
