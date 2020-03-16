@@ -11,7 +11,6 @@ public class DateStringConverter {
 
     public static String timeToDateString(long time) {
         try {
-            Log.e("time", "" + time);
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(time);
             return formatter.format(calendar.getTime());

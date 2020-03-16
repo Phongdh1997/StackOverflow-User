@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.DiffUtil;
 
 import com.example.stackoverflowuser.R;
 import com.example.stackoverflowuser.adapter.viewhoder.DetailUserInfoItemViewHolder;
-import com.example.stackoverflowuser.data.local.entity.DetailUserInfoEntity;
+import com.example.stackoverflowuser.data.remote.model.ReputationDetailItem;
 
 public class DetailUserInfoAdapter extends
-        PagedListAdapter<DetailUserInfoEntity, DetailUserInfoItemViewHolder> {
+        PagedListAdapter<ReputationDetailItem, DetailUserInfoItemViewHolder> {
 
     public DetailUserInfoAdapter() {
         super(DIFF_CALLBACK);
@@ -31,21 +31,21 @@ public class DetailUserInfoAdapter extends
 
     @Override
     public void onBindViewHolder(@NonNull DetailUserInfoItemViewHolder holder, int position) {
-        DetailUserInfoEntity item = getItem(position);
+        ReputationDetailItem item = getItem(position);
         holder.bindTo(item);
     }
 
 
-    private static DiffUtil.ItemCallback<DetailUserInfoEntity> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<DetailUserInfoEntity>() {
+    private static DiffUtil.ItemCallback<ReputationDetailItem> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<ReputationDetailItem>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull DetailUserInfoEntity oldItem, @NonNull DetailUserInfoEntity newItem) {
-                    return false;
+                public boolean areItemsTheSame(@NonNull ReputationDetailItem oldItem, @NonNull ReputationDetailItem newItem) {
+                    return oldItem.getPostId() == newItem.getPostId();
                 }
 
                 @Override
-                public boolean areContentsTheSame(DetailUserInfoEntity oldConcert,
-                                                  @Nullable DetailUserInfoEntity newConcert) {
+                public boolean areContentsTheSame(ReputationDetailItem oldConcert,
+                                                  @Nullable ReputationDetailItem newConcert) {
                     return oldConcert.equals(newConcert);
                 }
             };
