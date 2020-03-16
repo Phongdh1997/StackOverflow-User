@@ -40,12 +40,12 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ReputationDetailItem> callback) {
         Log.e("detail", "request page size "+ params.requestedLoadSize + ", Userid " + user.getUserId());
-        if (!isRequestInProgress && isHasMore) {
+        List<ReputationDetailItem> detailInfoList = loadDataFromServer(1,UserPagedListConfig.NETWORK_PAGE_SIZE);
+        if (detailInfoList != null) {
             // Call onResult to update loaded page
             // Loaded page: page 1
             // Prev page: null
             // Next page: 2
-            List<ReputationDetailItem> detailInfoList = loadDataFromServer(1,UserPagedListConfig.NETWORK_PAGE_SIZE);
             callback.onResult(detailInfoList, null, 2);
         }
     }
@@ -53,24 +53,28 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ReputationDetailItem> callback) {
         Log.e("Detail", "load before " + params.key);
-        if (!isRequestInProgress && isHasMore) {
-            List<ReputationDetailItem> detailInfoList = loadDataFromServer(params.key,UserPagedListConfig.NETWORK_PAGE_SIZE);
-            callback.onResult(detailInfoList,  params.key - 1);
+        List<ReputationDetailItem> detailInfoList = loadDataFromServer(params.key,UserPagedListConfig.NETWORK_PAGE_SIZE);
+        if (detailInfoList != null) {
+            callback.onResult(detailInfoList, params.key - 1);
         }
     }
 
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ReputationDetailItem> callback) {
         Log.e("Detail", "load after, key " + params.key);
-        if (!isRequestInProgress && isHasMore) {
-            List<ReputationDetailItem> detailInfoList = loadDataFromServer(1,UserPagedListConfig.NETWORK_PAGE_SIZE);
-            callback.onResult(detailInfoList,  params.key + 1);
+        List<ReputationDetailItem> detailInfoList = loadDataFromServer(1,UserPagedListConfig.NETWORK_PAGE_SIZE);
+        if (detailInfoList != null) {
+            callback.onResult(detailInfoList, params.key + 1);
         }
     }
 
     private List<ReputationDetailItem> loadDataFromServer(int page, int pageSize) {
-        networkState.postValue(NetworkStateValue.LOADING);
-        if (!isRequestInProgress && isHasMore) {
+        if (!isHasMore) {
+            networkState.postValue(NetworkStateValue.NOT_HAS_MORE);
+            return null;
+        }
+        if (!isRequestInProgress) {
+            networkState.postValue(NetworkStateValue.LOADING);
             isRequestInProgress = true;
             try {
                 Response<ReputationDetailResult> response = detailUserInfoService
@@ -86,10 +90,10 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            isRequestInProgress = false;
+            networkState.postValue(NetworkStateValue.ERROR);
         }
-        isRequestInProgress = false;
-        networkState.postValue(NetworkStateValue.ERROR);
-        return new ArrayList<>();
+        return null;
     }
 
     public static class Factory extends DataSource.Factory<java.lang.Integer, ReputationDetailItem> {

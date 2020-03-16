@@ -60,7 +60,11 @@ public class UserPagedListBoundaryCallback extends PagedList.BoundaryCallback<Us
     }
 
     private void requestAndSaveData() {
-        if (!isRequestInProgress && isHasMore) {
+        if (!isHasMore) {
+            networkState.postValue(NetworkStateValue.NOT_HAS_MORE);
+            return;
+        }
+        if (!isRequestInProgress) {
             networkState.postValue(NetworkStateValue.LOADING);
             isRequestInProgress = true;
             try {
@@ -74,6 +78,7 @@ public class UserPagedListBoundaryCallback extends PagedList.BoundaryCallback<Us
                     isHasMore = userResultGSON.getHasMore();
                     lastRequestedPage++;
                     saveDataToDB(userList);
+                    networkState.postValue(NetworkStateValue.SUCCESS);
                 } else {
                     networkState.postValue(NetworkStateValue.ERROR);
                 }
