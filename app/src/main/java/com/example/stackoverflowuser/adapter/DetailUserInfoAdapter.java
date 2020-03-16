@@ -1,5 +1,6 @@
 package com.example.stackoverflowuser.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -32,7 +33,7 @@ public class DetailUserInfoAdapter extends
     @Override
     public void onBindViewHolder(@NonNull DetailUserInfoItemViewHolder holder, int position) {
         ReputationDetailItem item = getItem(position);
-        holder.bindTo(item);
+        holder.bindTo(item, position);
     }
 
 

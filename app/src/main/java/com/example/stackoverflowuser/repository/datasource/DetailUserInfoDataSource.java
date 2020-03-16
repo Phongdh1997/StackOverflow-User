@@ -39,11 +39,11 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
 
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ReputationDetailItem> callback) {
-        Log.e("detail", "request page size "+ params.requestedLoadSize);
+        Log.e("detail", "request page size "+ params.requestedLoadSize + ", Userid " + user.getUserId());
         if (!isRequestInProgress && isHasMore) {
             isRequestInProgress = true;
             detailUserInfoService.getDetailUserInfo(user.getUserId(),
-                    params.requestedLoadSize,
+                    1,
                     UserPagedListConfig.NETWORK_PAGE_SIZE)
                     .enqueue(new Callback<ReputationDetailResult>() {
                         @Override
@@ -79,12 +79,82 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
 
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ReputationDetailItem> callback) {
-        Log.e("Detail", "load before");
+        Log.e("Detail", "load before " + params.key);
+        if (!isRequestInProgress && isHasMore) {
+            isRequestInProgress = true;
+            detailUserInfoService.getDetailUserInfo(user.getUserId(),
+                    params.key,
+                    UserPagedListConfig.NETWORK_PAGE_SIZE)
+                    .enqueue(new Callback<ReputationDetailResult>() {
+                        @Override
+                        public void onResponse(Call<ReputationDetailResult> call, Response<ReputationDetailResult> response) {
+                            if (response.code() == 200) {
+                                ReputationDetailResult result = response.body();
+                                if (result != null) {
+                                    Log.e("result", result.toString());
+                                    List<ReputationDetailItem> detailInfoList = result.getItems();
+                                    isHasMore = result.getHasMore();
+
+                                    // Call onResult to update loaded page
+                                    // Loaded page: page 1
+                                    // Prev page: null
+                                    // Next page: 2
+                                    callback.onResult(detailInfoList,  params.key - 1);
+                                }
+                                networkState.postValue(NetworkStateValue.SUCCESS);
+                            } else {
+                                Log.e("request message", response.code() + response.message());
+                                networkState.postValue(NetworkStateValue.ERROR);
+                            }
+                            isRequestInProgress = false;
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReputationDetailResult> call, Throwable t) {
+                            isRequestInProgress = false;
+                        }
+                    });
+        }
     }
 
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ReputationDetailItem> callback) {
-        Log.e("Detail", "load after");
+        Log.e("Detail", "load after, key " + params.key);
+        if (!isRequestInProgress && isHasMore) {
+            isRequestInProgress = true;
+            detailUserInfoService.getDetailUserInfo(user.getUserId(),
+                    params.key,
+                    UserPagedListConfig.NETWORK_PAGE_SIZE)
+                    .enqueue(new Callback<ReputationDetailResult>() {
+                        @Override
+                        public void onResponse(Call<ReputationDetailResult> call, Response<ReputationDetailResult> response) {
+                            if (response.code() == 200) {
+                                ReputationDetailResult result = response.body();
+                                if (result != null) {
+                                    Log.e("result", result.toString());
+                                    List<ReputationDetailItem> detailInfoList = result.getItems();
+                                    isHasMore = result.getHasMore();
+
+                                    // Call onResult to update loaded page
+                                    // Loaded page: page 1
+                                    // Prev page: null
+                                    // Next page: 2
+                                    callback.onResult(detailInfoList,  params.key + 1);
+                                }
+                                networkState.postValue(NetworkStateValue.SUCCESS);
+                            } else {
+                                Log.e("request message", response.code() + response.message());
+                                networkState.postValue(NetworkStateValue.ERROR);
+                            }
+                            isRequestInProgress = false;
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReputationDetailResult> call, Throwable t) {
+                            isRequestInProgress = false;
+                        }
+                    });
+        }
     }
 
     public static class Factory extends DataSource.Factory<java.lang.Integer, ReputationDetailItem> {

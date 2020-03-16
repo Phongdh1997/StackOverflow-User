@@ -15,7 +15,6 @@ import com.example.stackoverflowuser.repository.DetailUserInfoRepositoryImpl;
 
 public class DetailUserInfoViewModel extends AndroidViewModel {
 
-    private PagedListResult<ReputationDetailItem> detailUserInfoListResult;
     private DetailUserInfoRepository detailUserInfoRepository;
 
     public DetailUserInfoViewModel(@NonNull Application application) {
@@ -25,9 +24,6 @@ public class DetailUserInfoViewModel extends AndroidViewModel {
     }
 
     public LiveData<PagedList<ReputationDetailItem>> getDetailInfoPagedListLiveData(UserEntity user) {
-        if (detailUserInfoListResult == null) {
-            detailUserInfoListResult = detailUserInfoRepository.loadDetailUserInfos(user);
-        }
-        return detailUserInfoListResult.getPagedListLiveData();
+        return detailUserInfoRepository.loadDetailUserInfos(user).getPagedListLiveData();
     }
 }

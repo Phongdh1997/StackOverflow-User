@@ -16,6 +16,7 @@ public class DetailUserInfoItemViewHolder extends RecyclerView.ViewHolder {
     private TextView txtPostId;
     private TextView txtReputationChange;
     private TextView txtCreationDate;
+    private TextView txtDetailListNo;
 
     public DetailUserInfoItemViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -24,12 +25,16 @@ public class DetailUserInfoItemViewHolder extends RecyclerView.ViewHolder {
         txtPostId = itemView.findViewById(R.id.txtPostId);
         txtReputationChange = itemView.findViewById(R.id.txtReputationChange);
         txtCreationDate = itemView.findViewById(R.id.txtCreationDate);
+        txtDetailListNo = itemView.findViewById(R.id.txtDetailListNo);
     }
 
-    public void bindTo(ReputationDetailItem item) {
-        txtReputationHistoryType.setText(item.getReputationHistoryType());
-        txtPostId.setText(String.valueOf(item.getPostId()));
-        txtReputationChange.setText(String.valueOf(item.getReputationChange()));
-        txtCreationDate.setText(DateStringConverter.timeToDateString(item.getCreationDate()));
+    public void bindTo(ReputationDetailItem item, int index) {
+        if (item != null) {
+            txtReputationHistoryType.setText(item.getReputationHistoryType());
+            txtPostId.setText(String.valueOf(item.getPostId()));
+            txtReputationChange.setText(String.valueOf(item.getReputationChange()));
+            txtCreationDate.setText(DateStringConverter.timeToDateString(item.getCreationDate()));
+            txtDetailListNo.setText(String.valueOf(index));
+        }
     }
 }
