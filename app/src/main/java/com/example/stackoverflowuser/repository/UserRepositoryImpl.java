@@ -9,7 +9,7 @@ import androidx.paging.PagedList;
 import com.example.stackoverflowuser.annotation.UserLoadType;
 import com.example.stackoverflowuser.common.UserPagedListConfig;
 import com.example.stackoverflowuser.model.PagedListResult;
-import com.example.stackoverflowuser.model.UserPagedListBoundaryCallback;
+import com.example.stackoverflowuser.repository.datasource.UserPagedListBoundaryCallback;
 import com.example.stackoverflowuser.data.local.dao.UserDao;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
 import com.example.stackoverflowuser.data.remote.RetrofitClient;
