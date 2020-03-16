@@ -35,6 +35,6 @@ public class DetailUserInfoRepositoryImpl implements DetailUserInfoRepository {
 
         LiveData<PagedList<ReputationDetailItem>> userPagedListLiveData = new LivePagedListBuilder<>(
                 dataSource, userPagedListConfig).build();
-        return new PagedListResult<>(userPagedListLiveData, new MutableLiveData<>());
+        return new PagedListResult<>(userPagedListLiveData, null);
     }
 }

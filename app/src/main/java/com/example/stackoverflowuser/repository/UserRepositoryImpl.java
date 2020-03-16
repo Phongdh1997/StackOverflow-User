@@ -50,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
 
         LiveData<PagedList<UserEntity>> userPagedListLiveData = new LivePagedListBuilder<>(
                 dataSource, userPagedListConfig).build();
-        return new PagedListResult<>(userPagedListLiveData, new MutableLiveData<>());
+        return new PagedListResult<>(userPagedListLiveData, null);
     }
 
     private PagedListResult<UserEntity> loadAllOfUsers() {

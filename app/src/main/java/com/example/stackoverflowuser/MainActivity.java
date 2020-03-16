@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         userViewModel.onSaveBookmarkedOption();
+        userViewModel.onSaveLastPageIndex();
     }
 
     private void getViewModel() {
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         boolean isBookmarked = userViewModel.onLoadBookmarkedOption();
         swShowBookmarkedUser.setChecked(isBookmarked);
         setPagedListObserver(isBookmarked);
+
+        // load last page index
+        userViewModel.onLoadLastPageIndex();
     }
 
     private void addEvent() {

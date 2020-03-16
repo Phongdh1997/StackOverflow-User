@@ -16,6 +16,8 @@ import com.example.stackoverflowuser.repository.UserRepository;
 import com.example.stackoverflowuser.repository.UserRepositoryImpl;
 import com.example.stackoverflowuser.data.local.AppDatabase;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
+import com.example.stackoverflowuser.repository.datasource.UserPagedListBoundaryCallback;
+import com.example.stackoverflowuser.util.LastUserPagedIndexSharedRefUtil;
 
 public class UserViewModel extends AndroidViewModel {
     private Context context;
@@ -89,5 +91,22 @@ public class UserViewModel extends AndroidViewModel {
      */
     public void onSaveBookmarkedOption() {
         bookmarkedOption.save(context);
+    }
+
+    /**
+     * Action: save index of userList loaded page to shared references
+     *
+     */
+    public void onSaveLastPageIndex() {
+        LastUserPagedIndexSharedRefUtil
+                .savePagedIndex(context, UserPagedListBoundaryCallback.lastRequestedPage);
+    }
+
+    /**
+     * Action: load index of userList loaded page from shared references
+     *
+     */
+    public void onLoadLastPageIndex() {
+        UserPagedListBoundaryCallback.lastRequestedPage = LastUserPagedIndexSharedRefUtil.loadPagedIndex(context);
     }
 }

@@ -21,7 +21,7 @@ import retrofit2.Response;
 
 public class UserPagedListBoundaryCallback extends PagedList.BoundaryCallback<UserEntity> {
 
-    private int lastRequestedPage = 1;
+    public static int lastRequestedPage = 1;
     private boolean isRequestInProgress = false;    // avoid triggering multiple requests in the same time
     private boolean isHasMore = true;   // show if has more page for next loading
     private MutableLiveData<String> networkState = new MutableLiveData<>();
