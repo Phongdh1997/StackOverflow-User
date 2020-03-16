@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 import androidx.paging.PageKeyedDataSource;
 
-import com.example.stackoverflowuser.common.NetworkStateValue;
+import com.example.stackoverflowuser.common.NetworkState;
 import com.example.stackoverflowuser.common.UserPagedListConfig;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
 import com.example.stackoverflowuser.data.remote.model.ReputationDetailItem;
@@ -16,7 +16,6 @@ import com.example.stackoverflowuser.data.remote.model.ReputationDetailResult;
 import com.example.stackoverflowuser.data.remote.service.DetailUserInfoService;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Response;
@@ -70,11 +69,11 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
 
     private List<ReputationDetailItem> loadDataFromServer(int page, int pageSize) {
         if (!isHasMore) {
-            networkState.postValue(NetworkStateValue.NOT_HAS_MORE);
+            networkState.postValue(NetworkState.NOT_HAS_MORE);
             return null;
         }
         if (!isRequestInProgress) {
-            networkState.postValue(NetworkStateValue.LOADING);
+            networkState.postValue(NetworkState.LOADING);
             isRequestInProgress = true;
             try {
                 Response<ReputationDetailResult> response = detailUserInfoService
@@ -84,14 +83,14 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
                 if (response.code() == 200 && resultData != null) {
                     isHasMore = resultData.getHasMore();
                     isRequestInProgress = false;
-                    networkState.postValue(NetworkStateValue.SUCCESS);
+                    networkState.postValue(NetworkState.SUCCESS);
                     return resultData.getItems();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
             isRequestInProgress = false;
-            networkState.postValue(NetworkStateValue.ERROR);
+            networkState.postValue(NetworkState.ERROR);
         }
         return null;
     }

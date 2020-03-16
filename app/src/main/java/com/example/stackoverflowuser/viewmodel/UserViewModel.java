@@ -47,7 +47,7 @@ public class UserViewModel extends AndroidViewModel {
         return allUserPagedListResult.getPagedListLiveData();
     }
 
-    public LiveData<String> getNetworkStateLiveData () {
+    public LiveData<String> getUserPagedListNetworkStateLiveData () {
         return allUserPagedListResult.getNetworkStateLiveData();
     }
 
