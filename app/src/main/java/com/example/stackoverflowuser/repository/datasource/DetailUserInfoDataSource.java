@@ -1,7 +1,5 @@
 package com.example.stackoverflowuser.repository.datasource;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -41,7 +39,6 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
 
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ReputationDetailItem> callback) {
-        Log.e("detail", "request page size "+ params.requestedLoadSize + ", Userid " + user.getUserId());
         List<ReputationDetailItem> detailInfoList = loadDataFromServer(1,UserPagedListConfig.NETWORK_PAGE_SIZE);
         if (detailInfoList != null) {
             // Call onResult to update loaded page
@@ -54,7 +51,6 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
 
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ReputationDetailItem> callback) {
-        Log.e("Detail", "load before " + params.key);
         List<ReputationDetailItem> detailInfoList = loadDataFromServer(params.key,UserPagedListConfig.NETWORK_PAGE_SIZE);
         if (detailInfoList != null) {
             callback.onResult(detailInfoList, params.key - 1);
@@ -63,7 +59,6 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
 
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ReputationDetailItem> callback) {
-        Log.e("Detail", "load after, key " + params.key);
         List<ReputationDetailItem> detailInfoList = loadDataFromServer(1,UserPagedListConfig.NETWORK_PAGE_SIZE);
         if (detailInfoList != null) {
             callback.onResult(detailInfoList, params.key + 1);

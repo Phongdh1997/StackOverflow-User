@@ -1,7 +1,6 @@
 package com.example.stackoverflowuser.adapter.viewhoder;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,14 +9,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.FitCenter;
-import com.bumptech.glide.module.AppGlideModule;
 import com.example.stackoverflowuser.R;
-import com.example.stackoverflowuser.common.AppGlideModulConfig;
 import com.example.stackoverflowuser.common.GlideApp;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
 

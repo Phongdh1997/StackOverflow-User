@@ -56,8 +56,6 @@ public class UserPagedListAdapter
 
     private static DiffUtil.ItemCallback<UserEntity> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<UserEntity>() {
-                // Concert details may have changed if reloaded from the database,
-                // but ID is fixed.
                 @Override
                 public boolean areItemsTheSame(UserEntity oldConcert, UserEntity newConcert) {
                     return oldConcert.getUserId() == newConcert.getUserId();
