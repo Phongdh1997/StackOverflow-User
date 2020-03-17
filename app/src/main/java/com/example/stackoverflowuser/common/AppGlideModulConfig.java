@@ -17,7 +17,7 @@ import static android.os.Environment.isExternalStorageRemovable;
 @GlideModule
 public class AppGlideModulConfig extends AppGlideModule {
     private static final int DISK_CACHE_SIZE_BYTES = 1024 * 1024 * 200;  // 200 MB
-    private static final int MEMORY_CACHE_SCREENS = 2;
+    private static final int MEMORY_CACHE_SCREENS = 3;
 
     @Override
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
