@@ -53,7 +53,7 @@ public class DetailUserInfoActivity extends AppCompatActivity {
         rvDetailUserInfo.addOnScrollListener(new EndlessScrollListener() {
             @Override
             public void loadMore() {
-                
+
             }
         });
     }

@@ -86,12 +86,7 @@ public class MainActivity extends AppCompatActivity {
         rcUserList.addOnScrollListener(new EndlessScrollListener() {
             @Override
             public void loadMore() {
-                PagedList<UserEntity> pagedList = userViewModel
-                        .getUserPagedListLiveData(UserLoadType.ALL_USER)
-                        .getValue();
-                if (pagedList != null) {
-                    pagedList.getDataSource().invalidate();
-                }
+                userViewModel.onInvalidateUserPagedDataSource();
             }
         });
     }
