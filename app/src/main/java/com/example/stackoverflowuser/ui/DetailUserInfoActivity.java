@@ -21,6 +21,7 @@ public class DetailUserInfoActivity extends AppCompatActivity {
     private DetailUserInfoViewModel detailUserInfoViewModel;
     private RecyclerView rvDetailUserInfo;
     private DetailUserInfoAdapter detailUserInfoPagedListAdapter;
+    private LoadingNetworkStateView networkStateView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ public class DetailUserInfoActivity extends AppCompatActivity {
         rvDetailUserInfo.setAdapter(detailUserInfoPagedListAdapter);
         rvDetailUserInfo.addItemDecoration(
                 new DividerItemDecoration(rvDetailUserInfo.getContext(), DividerItemDecoration.VERTICAL));
+
+        networkStateView = new LoadingNetworkStateView(findViewById(R.id.pbDetailListLoading));
     }
 
     private void addEvent() {
@@ -64,7 +67,7 @@ public class DetailUserInfoActivity extends AppCompatActivity {
                     .observe(this, detailUserInfoPagedListAdapter::submitList);
             detailUserInfoViewModel.getDetailInfoNetworkStateLiveData()
                     .observe(this, s -> {
-
+                        networkStateView.handleState(s);
                     });
         }
     }
