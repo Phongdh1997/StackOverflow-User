@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.example.stackoverflowuser.R;
 import com.example.stackoverflowuser.adapter.DetailUserInfoAdapter;
+import com.example.stackoverflowuser.common.NetworkState;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
 import com.example.stackoverflowuser.viewmodel.DetailUserInfoViewModel;
 
@@ -53,6 +54,10 @@ public class DetailUserInfoActivity extends AppCompatActivity {
         if (user != null) {
             detailUserInfoViewModel.getDetailInfoPagedListLiveData(user)
                     .observe(this, detailUserInfoPagedListAdapter::submitList);
+            detailUserInfoViewModel.getDetailInfoNetworkStateLiveData()
+                    .observe(this, s -> {
+                        NetworkState.toastState(getApplicationContext(), s);
+                    });
         }
     }
 }

@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             setPagedListObserver(bookmarkedOption.isBookmarked());
         });
         userViewModel.getUserPagedListNetworkStateLiveData().observe(this, s -> {
-            NetworkState.toastState(MainActivity.this.getApplicationContext(), s);
+            NetworkState.toastState(getApplicationContext(), s);
         });
     }
 

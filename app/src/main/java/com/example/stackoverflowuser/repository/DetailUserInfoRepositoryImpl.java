@@ -30,11 +30,12 @@ public class DetailUserInfoRepositoryImpl implements DetailUserInfoRepository {
                 .setEnablePlaceholders(true)
                 .build();
 
-        DataSource.Factory<Integer, ReputationDetailItem> dataSource =
+        DetailUserInfoDataSource.Factory dataSourceFactory =
                 DetailUserInfoDataSource.getDataSourceFactory(detailUserInfoService, user);
 
         LiveData<PagedList<ReputationDetailItem>> userPagedListLiveData = new LivePagedListBuilder<>(
-                dataSource, userPagedListConfig).build();
-        return new PagedListResult<>(userPagedListLiveData, null);
+                dataSourceFactory, userPagedListConfig).build();
+        LiveData<String> networkStateLiveData = dataSourceFactory.getNetworkStateLiveData();
+        return new PagedListResult<>(userPagedListLiveData, networkStateLiveData);
     }
 }

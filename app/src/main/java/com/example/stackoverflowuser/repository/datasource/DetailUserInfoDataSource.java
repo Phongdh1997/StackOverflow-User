@@ -23,12 +23,15 @@ import retrofit2.Response;
 public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, ReputationDetailItem> {
     private UserEntity user;
     private DetailUserInfoService detailUserInfoService;
-    private MutableLiveData<String> networkState = new MutableLiveData<>();
+    private MutableLiveData<String> networkState;
     private boolean isRequestInProgress = false;    // avoid triggering multiple requests in the same time
     private boolean isHasMore = true;   // show if has more page for next loading
 
     public LiveData<String> getNetworkStateLiveData () {
         return networkState;
+    }
+    public void setNetworkStateLiveDate(MutableLiveData<String> networkStateLiveDate) {
+        this.networkState = networkStateLiveDate;
     }
 
     public DetailUserInfoDataSource(DetailUserInfoService detailUserInfoService, UserEntity userEntity) {
@@ -98,6 +101,11 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
     public static class Factory extends DataSource.Factory<java.lang.Integer, ReputationDetailItem> {
         private DetailUserInfoService detailUserInfoService;
         private UserEntity user;
+        private MutableLiveData<String> networkState = new MutableLiveData<>();
+
+        public LiveData<String> getNetworkStateLiveData () {
+            return networkState;
+        }
 
         private Factory (DetailUserInfoService detailUserInfoService, UserEntity user) {
             this.detailUserInfoService = detailUserInfoService;
@@ -107,7 +115,10 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
         @NonNull
         @Override
         public DataSource<Integer, ReputationDetailItem> create() {
-            return new DetailUserInfoDataSource(detailUserInfoService, user);
+            DetailUserInfoDataSource dataSource = new DetailUserInfoDataSource(
+                    detailUserInfoService, user);
+            dataSource.setNetworkStateLiveDate(networkState);
+            return dataSource;
         }
     }
 
