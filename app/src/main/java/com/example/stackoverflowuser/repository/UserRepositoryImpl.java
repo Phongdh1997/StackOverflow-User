@@ -1,7 +1,6 @@
 package com.example.stackoverflowuser.repository;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
@@ -58,7 +57,6 @@ public class UserRepositoryImpl implements UserRepository {
         PagedList.Config userPagedListConfig = new PagedList.Config.Builder()
                 .setPageSize(UserPagedListConfig.DATABASE_PAGE_SIZE)
                 .setPrefetchDistance(UserPagedListConfig.PREFETCH_DISTANCE)
-                .setEnablePlaceholders(true)
                 .build();
 
         // get data source
@@ -78,11 +76,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void updateUser(UserEntity userEntity) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                userDao.updateUser(userEntity);
-            }
-        }).start();
+        new Thread(() -> userDao.updateUser(userEntity)).start();
     }
 }

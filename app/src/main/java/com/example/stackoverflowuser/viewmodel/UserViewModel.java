@@ -109,4 +109,11 @@ public class UserViewModel extends AndroidViewModel {
     public void onLoadLastPageIndex() {
         UserPagedListBoundaryCallback.lastRequestedPage = LastUserPagedIndexSharedRefUtil.loadPagedIndex(context);
     }
+
+    public void onInvalidateUserPagedDataSource() {
+        PagedList<UserEntity> pagedList = allUserPagedListResult.getPagedListLiveData().getValue();
+        if (pagedList != null) {
+            pagedList.getDataSource().invalidate();
+        }
+    }
 }

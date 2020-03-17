@@ -24,12 +24,30 @@ public class DetailUserInfoViewModel extends AndroidViewModel {
         detailUserInfoRepository = new DetailUserInfoRepositoryImpl();
     }
 
-    public LiveData<PagedList<ReputationDetailItem>> getDetailInfoPagedListLiveData(UserEntity user) {
+    public LiveData<PagedList<ReputationDetailItem>> loadNewDetailInfoPagedListLiveData(UserEntity user) {
         detailItemPagedListResult = detailUserInfoRepository.loadDetailUserInfos(user);
         return detailItemPagedListResult.getPagedListLiveData();
     }
 
+    public LiveData<PagedList<ReputationDetailItem>> getDetailInfoPagedListLiveData(UserEntity user) {
+        if (detailItemPagedListResult != null) {
+            return detailItemPagedListResult.getPagedListLiveData();
+        }
+        return loadNewDetailInfoPagedListLiveData(user);
+    }
+
     public LiveData<String> getDetailInfoNetworkStateLiveData() {
         return detailItemPagedListResult.getNetworkStateLiveData();
+    }
+
+    /**
+     * Action:
+     */
+    public void onInvalidateDetailListDataSource() {
+        PagedList<ReputationDetailItem> pagedList = detailItemPagedListResult
+                .getPagedListLiveData().getValue();
+        if (pagedList != null) {
+            pagedList.getDataSource().invalidate();
+        }
     }
 }

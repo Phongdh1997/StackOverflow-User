@@ -1,14 +1,12 @@
 package com.example.stackoverflowuser.repository.datasource;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 import androidx.paging.PageKeyedDataSource;
 
-import com.example.stackoverflowuser.common.NetworkState;
+import com.example.stackoverflowuser.common.NetworkStateValue;
 import com.example.stackoverflowuser.common.UserPagedListConfig;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
 import com.example.stackoverflowuser.data.remote.model.ReputationDetailItem;
@@ -41,7 +39,6 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
 
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ReputationDetailItem> callback) {
-        Log.e("detail", "request page size "+ params.requestedLoadSize + ", Userid " + user.getUserId());
         List<ReputationDetailItem> detailInfoList = loadDataFromServer(1,UserPagedListConfig.NETWORK_PAGE_SIZE);
         if (detailInfoList != null) {
             // Call onResult to update loaded page
@@ -54,7 +51,6 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
 
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ReputationDetailItem> callback) {
-        Log.e("Detail", "load before " + params.key);
         List<ReputationDetailItem> detailInfoList = loadDataFromServer(params.key,UserPagedListConfig.NETWORK_PAGE_SIZE);
         if (detailInfoList != null) {
             callback.onResult(detailInfoList, params.key - 1);
@@ -63,7 +59,6 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
 
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ReputationDetailItem> callback) {
-        Log.e("Detail", "load after, key " + params.key);
         List<ReputationDetailItem> detailInfoList = loadDataFromServer(1,UserPagedListConfig.NETWORK_PAGE_SIZE);
         if (detailInfoList != null) {
             callback.onResult(detailInfoList, params.key + 1);
@@ -72,11 +67,11 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
 
     private List<ReputationDetailItem> loadDataFromServer(int page, int pageSize) {
         if (!isHasMore) {
-            networkState.postValue(NetworkState.NOT_HAS_MORE);
+            networkState.postValue(NetworkStateValue.NOT_HAS_MORE);
             return null;
         }
         if (!isRequestInProgress) {
-            networkState.postValue(NetworkState.LOADING);
+            networkState.postValue(NetworkStateValue.LOADING);
             isRequestInProgress = true;
             try {
                 Response<ReputationDetailResult> response = detailUserInfoService
@@ -86,14 +81,14 @@ public class DetailUserInfoDataSource extends PageKeyedDataSource<Integer, Reput
                 if (response.code() == 200 && resultData != null) {
                     isHasMore = resultData.getHasMore();
                     isRequestInProgress = false;
-                    networkState.postValue(NetworkState.SUCCESS);
+                    networkState.postValue(NetworkStateValue.SUCCESS);
                     return resultData.getItems();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
             isRequestInProgress = false;
-            networkState.postValue(NetworkState.ERROR);
+            networkState.postValue(NetworkStateValue.ERROR);
         }
         return null;
     }

@@ -8,7 +8,6 @@ public class BookmarkSharedReferenceUtil extends SharedReferencesUtil {
     private static final String BOOK_MARKED_OPTION_FIELD = "bookmarked_field";
 
     public static void saveBookmarkedOption(Context context, boolean value) {
-        Log.e("save ", "book " + value);
         SharedPreferences.Editor editor = getSharedReferenceEditor(context);
         editor.putBoolean(BOOK_MARKED_OPTION_FIELD, value);
         editor.apply();

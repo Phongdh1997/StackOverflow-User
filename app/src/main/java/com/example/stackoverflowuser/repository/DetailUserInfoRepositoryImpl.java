@@ -1,8 +1,6 @@
 package com.example.stackoverflowuser.repository;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
@@ -27,7 +25,6 @@ public class DetailUserInfoRepositoryImpl implements DetailUserInfoRepository {
         PagedList.Config userPagedListConfig = new PagedList.Config.Builder()
                 .setPageSize(UserPagedListConfig.DATABASE_PAGE_SIZE)
                 .setPrefetchDistance(UserPagedListConfig.PREFETCH_DISTANCE)
-                .setEnablePlaceholders(true)
                 .build();
 
         DetailUserInfoDataSource.Factory dataSourceFactory =

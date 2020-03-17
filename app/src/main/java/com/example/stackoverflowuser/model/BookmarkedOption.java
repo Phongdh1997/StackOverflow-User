@@ -3,7 +3,6 @@ package com.example.stackoverflowuser.model;
 import android.content.Context;
 
 import com.example.stackoverflowuser.util.BookmarkSharedReferenceUtil;
-import com.example.stackoverflowuser.util.SharedReferencesUtil;
 
 public class BookmarkedOption {
     private boolean isBookmarked;
