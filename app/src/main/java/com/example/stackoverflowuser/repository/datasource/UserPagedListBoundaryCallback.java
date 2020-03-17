@@ -1,7 +1,5 @@
 package com.example.stackoverflowuser.repository.datasource;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -39,24 +37,12 @@ public class UserPagedListBoundaryCallback extends PagedList.BoundaryCallback<Us
 
     @Override
     public void onZeroItemsLoaded() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                requestAndSaveData();
-            }
-        }).start();
-        Log.e("On Zero loaded", "load page " + lastRequestedPage);
+        new Thread(this::requestAndSaveData).start();
     }
 
     @Override
     public void onItemAtEndLoaded(@NonNull UserEntity itemAtEnd) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                requestAndSaveData();
-            }
-        }).start();
-        Log.e("On end loaded", "load page " + lastRequestedPage);
+        new Thread(this::requestAndSaveData).start();
     }
 
     private void requestAndSaveData() {

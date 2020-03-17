@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.module.AppGlideModule;
 import com.example.stackoverflowuser.R;
 import com.example.stackoverflowuser.common.AppGlideModulConfig;
@@ -49,11 +52,11 @@ public class UserItemViewHolder extends RecyclerView.ViewHolder {
             txtLastAccessDate.setText(userEntity.getLastAccessDateString());
             setIvBookMarkedColor(ivBookMarked, currentUser.isBookmarked());
 
-            // TODO: load Avatar here
             GlideApp.with(txtName.getContext())
                     .load(userEntity.getProfileImage())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .centerCrop()
+                    .transform(new FitCenter(), new CenterCrop(), new CircleCrop())
+                    .placeholder(R.drawable.ic_default_avatar)
                     .into(ivAvatar);
         }
     }
