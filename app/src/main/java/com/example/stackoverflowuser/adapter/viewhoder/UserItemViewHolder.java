@@ -9,6 +9,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.stackoverflowuser.R;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
 
@@ -44,6 +46,11 @@ public class UserItemViewHolder extends RecyclerView.ViewHolder {
             setIvBookMarkedColor(ivBookMarked, currentUser.isBookmarked());
 
             // TODO: load Avatar here
+            Glide.with(txtName.getContext())
+                    .load(userEntity.getProfileImage())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop()
+                    .into(ivAvatar);
         }
     }
 

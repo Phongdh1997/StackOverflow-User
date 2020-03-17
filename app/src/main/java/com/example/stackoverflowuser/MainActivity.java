@@ -3,6 +3,7 @@ package com.example.stackoverflowuser;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         rcUserList.setHasFixedSize(true);
         adapter = new UserPagedListAdapter();
         rcUserList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        rcUserList.addItemDecoration(
+                new DividerItemDecoration(rcUserList.getContext(), DividerItemDecoration.VERTICAL));
         rcUserList.setAdapter(adapter);
 
         // switch button
