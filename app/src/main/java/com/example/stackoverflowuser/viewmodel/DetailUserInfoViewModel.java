@@ -39,4 +39,15 @@ public class DetailUserInfoViewModel extends AndroidViewModel {
     public LiveData<String> getDetailInfoNetworkStateLiveData() {
         return detailItemPagedListResult.getNetworkStateLiveData();
     }
+
+    /**
+     * Action:
+     */
+    public void onInvalidateDetailListDataSource() {
+        PagedList<ReputationDetailItem> pagedList = detailItemPagedListResult
+                .getPagedListLiveData().getValue();
+        if (pagedList != null) {
+            pagedList.getDataSource().invalidate();
+        }
+    }
 }
