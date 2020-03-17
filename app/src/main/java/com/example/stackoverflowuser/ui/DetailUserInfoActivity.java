@@ -2,7 +2,7 @@ package com.example.stackoverflowuser.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.paging.PagedList;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,9 +10,7 @@ import android.os.Bundle;
 
 import com.example.stackoverflowuser.R;
 import com.example.stackoverflowuser.adapter.DetailUserInfoAdapter;
-import com.example.stackoverflowuser.common.NetworkStateValue;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
-import com.example.stackoverflowuser.data.remote.model.ReputationDetailItem;
 import com.example.stackoverflowuser.listener.EndlessScrollListener;
 import com.example.stackoverflowuser.viewmodel.DetailUserInfoViewModel;
 
@@ -47,6 +45,8 @@ public class DetailUserInfoActivity extends AppCompatActivity {
         detailUserInfoPagedListAdapter = new DetailUserInfoAdapter();
         rvDetailUserInfo.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         rvDetailUserInfo.setAdapter(detailUserInfoPagedListAdapter);
+        rvDetailUserInfo.addItemDecoration(
+                new DividerItemDecoration(rvDetailUserInfo.getContext(), DividerItemDecoration.VERTICAL));
     }
 
     private void addEvent() {
