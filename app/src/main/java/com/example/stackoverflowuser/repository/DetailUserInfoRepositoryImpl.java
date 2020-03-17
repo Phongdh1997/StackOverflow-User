@@ -27,7 +27,6 @@ public class DetailUserInfoRepositoryImpl implements DetailUserInfoRepository {
         PagedList.Config userPagedListConfig = new PagedList.Config.Builder()
                 .setPageSize(UserPagedListConfig.DATABASE_PAGE_SIZE)
                 .setPrefetchDistance(UserPagedListConfig.PREFETCH_DISTANCE)
-                .setEnablePlaceholders(true)
                 .build();
 
         DetailUserInfoDataSource.Factory dataSourceFactory =
