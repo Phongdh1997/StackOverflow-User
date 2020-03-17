@@ -2,6 +2,7 @@ package com.example.stackoverflowuser.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,8 @@ import com.example.stackoverflowuser.R;
 import com.example.stackoverflowuser.adapter.DetailUserInfoAdapter;
 import com.example.stackoverflowuser.common.NetworkStateValue;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
+import com.example.stackoverflowuser.data.remote.model.ReputationDetailItem;
+import com.example.stackoverflowuser.listener.EndlessScrollListener;
 import com.example.stackoverflowuser.viewmodel.DetailUserInfoViewModel;
 
 public class DetailUserInfoActivity extends AppCompatActivity {
@@ -47,12 +50,17 @@ public class DetailUserInfoActivity extends AppCompatActivity {
     }
 
     private void addEvent() {
-
+        rvDetailUserInfo.addOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public void loadMore() {
+                
+            }
+        });
     }
 
     private void addViewModelObsever() {
         if (user != null) {
-            detailUserInfoViewModel.getDetailInfoPagedListLiveData(user)
+            detailUserInfoViewModel.loadNewDetailInfoPagedListLiveData(user)
                     .observe(this, detailUserInfoPagedListAdapter::submitList);
             detailUserInfoViewModel.getDetailInfoNetworkStateLiveData()
                     .observe(this, s -> {
