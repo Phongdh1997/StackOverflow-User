@@ -2,6 +2,8 @@ package com.example.stackoverflowuser;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.DataSource;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +16,7 @@ import android.widget.Switch;
 import com.example.stackoverflowuser.adapter.UserPagedListAdapter;
 import com.example.stackoverflowuser.annotation.UserLoadType;
 import com.example.stackoverflowuser.common.NetworkStateValue;
+import com.example.stackoverflowuser.data.local.entity.UserEntity;
 import com.example.stackoverflowuser.listener.EndlessScrollListener;
 import com.example.stackoverflowuser.ui.DetailUserInfoActivity;
 import com.example.stackoverflowuser.viewmodel.UserViewModel;
@@ -79,6 +82,17 @@ public class MainActivity extends AppCompatActivity {
         });
         swShowBookmarkedUser.setOnCheckedChangeListener((buttonView, isChecked) -> {
             userViewModel.onBookmarkedOptionChange(isChecked);
+        });
+        rcUserList.addOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public void loadMore() {
+                PagedList<UserEntity> pagedList = userViewModel
+                        .getUserPagedListLiveData(UserLoadType.ALL_USER)
+                        .getValue();
+                if (pagedList != null) {
+                    pagedList.getDataSource().invalidate();
+                }
+            }
         });
     }
 
