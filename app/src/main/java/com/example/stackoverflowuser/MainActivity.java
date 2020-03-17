@@ -2,23 +2,19 @@ package com.example.stackoverflowuser;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.paging.DataSource;
-import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Switch;
 
 import com.example.stackoverflowuser.adapter.UserPagedListAdapter;
 import com.example.stackoverflowuser.annotation.UserLoadType;
-import com.example.stackoverflowuser.common.NetworkStateValue;
-import com.example.stackoverflowuser.data.local.entity.UserEntity;
 import com.example.stackoverflowuser.listener.EndlessScrollListener;
 import com.example.stackoverflowuser.ui.DetailUserInfoActivity;
+import com.example.stackoverflowuser.ui.LoadingNetworkStateView;
 import com.example.stackoverflowuser.viewmodel.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private UserPagedListAdapter adapter;
     private UserViewModel userViewModel;
     private Switch swShowBookmarkedUser;
+    private LoadingNetworkStateView networkStateView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
         swShowBookmarkedUser.setChecked(isBookmarked);
         setPagedListObserver(isBookmarked);
 
-        // load last page index
-        userViewModel.onLoadLastPageIndex();
+        userViewModel.onLoadLastPageIndex();    // load last page index
+        networkStateView = new LoadingNetworkStateView(findViewById(R.id.pbUserListLoading));
     }
 
     private void addEvent() {
@@ -96,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             setPagedListObserver(bookmarkedOption.isBookmarked());
         });
         userViewModel.getUserPagedListNetworkStateLiveData().observe(this, s -> {
-
+            networkStateView.handleState(s);
         });
     }
 

@@ -23,8 +23,8 @@ public abstract class NetworkStateView {
         }
     }
 
-    public abstract void onSuccess();
-    public abstract void onLoading();
-    public abstract void onError();
-    public abstract void onNotHasMore();
+    protected abstract void onSuccess();
+    protected abstract void onLoading();
+    protected abstract void onError();
+    protected abstract void onNotHasMore();
 }
