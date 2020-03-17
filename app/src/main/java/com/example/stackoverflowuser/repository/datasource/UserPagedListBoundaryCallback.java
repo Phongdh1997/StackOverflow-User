@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
 
-import com.example.stackoverflowuser.common.NetworkState;
+import com.example.stackoverflowuser.common.NetworkStateValue;
 import com.example.stackoverflowuser.common.UserPagedListConfig;
 import com.example.stackoverflowuser.data.local.dao.UserDao;
 import com.example.stackoverflowuser.data.local.entity.UserEntity;
@@ -61,11 +61,11 @@ public class UserPagedListBoundaryCallback extends PagedList.BoundaryCallback<Us
 
     private void requestAndSaveData() {
         if (!isHasMore) {
-            networkState.postValue(NetworkState.NOT_HAS_MORE);
+            networkState.postValue(NetworkStateValue.NOT_HAS_MORE);
             return;
         }
         if (!isRequestInProgress) {
-            networkState.postValue(NetworkState.LOADING);
+            networkState.postValue(NetworkStateValue.LOADING);
             isRequestInProgress = true;
             try {
                 Response<UserResultGSON> response = userService.getStackOverflowUsers(
@@ -78,13 +78,13 @@ public class UserPagedListBoundaryCallback extends PagedList.BoundaryCallback<Us
                     isHasMore = userResultGSON.getHasMore();
                     lastRequestedPage++;
                     saveDataToDB(userList);
-                    networkState.postValue(NetworkState.SUCCESS);
+                    networkState.postValue(NetworkStateValue.SUCCESS);
                 } else {
-                    networkState.postValue(NetworkState.ERROR);
+                    networkState.postValue(NetworkStateValue.ERROR);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                networkState.postValue(NetworkState.ERROR);
+                networkState.postValue(NetworkStateValue.ERROR);
             }
             isRequestInProgress = false;
         }

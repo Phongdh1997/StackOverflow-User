@@ -1,7 +1,6 @@
 package com.example.stackoverflowuser;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,11 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Switch;
 
 import com.example.stackoverflowuser.adapter.UserPagedListAdapter;
 import com.example.stackoverflowuser.annotation.UserLoadType;
-import com.example.stackoverflowuser.common.NetworkState;
+import com.example.stackoverflowuser.common.NetworkStateValue;
+import com.example.stackoverflowuser.listener.EndlessScrollListener;
 import com.example.stackoverflowuser.ui.DetailUserInfoActivity;
 import com.example.stackoverflowuser.viewmodel.UserViewModel;
 
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             setPagedListObserver(bookmarkedOption.isBookmarked());
         });
         userViewModel.getUserPagedListNetworkStateLiveData().observe(this, s -> {
-            NetworkState.toastState(getApplicationContext(), s);
+
         });
     }
 
